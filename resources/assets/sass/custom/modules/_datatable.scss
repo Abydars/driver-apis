@@ -1,0 +1,16 @@
+table.dataTable thead {
+    .sorting,
+    .sorting_asc,
+    .sorting_asc_disabled,
+    .sorting_desc,
+    .sorting_desc_disabled {
+        &:after {
+            position      : relative;
+            display       : inline-block;
+            vertical-align: bottom;
+            line-height   : 0.4;
+            margin-left   : 15px;
+            margin-top    : 0;
+        }
+    }
+}

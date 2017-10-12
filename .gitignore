@@ -1,0 +1,14 @@
+/node_modules
+/bower_components
+/public/hot
+/public/storage
+/public/phpmyadmin
+/storage/*cc
+c.key
+/vendor
+/.idea
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+.env

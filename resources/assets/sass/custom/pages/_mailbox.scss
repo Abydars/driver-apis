@@ -1,0 +1,12 @@
+section[role="spa"] {
+    display: none;
+}
+
+$mailbox-sections: ( 'mailbox-inbox', 'mailbox-starred', 'mailbox-sent', 'mailbox-draft', 'mailbox-starred', 'mailbox-trash' );
+@include spa-section($mailbox-sections) {
+    display: block;
+}
+@include spa-nav($mailbox-sections, 'ul.nav') {
+    color           : $btn-primary-color;
+    background-color: $btn-primary-bg;
+}

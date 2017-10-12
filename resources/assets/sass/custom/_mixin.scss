@@ -1,0 +1,14 @@
+@mixin spa-section($sections) {
+     @each $name in $sections{
+        body.#{$name} section[role='spa']##{$name} {
+            @content;
+        }
+    }
+}
+@mixin spa-nav($sections, $nav) {
+     @each $name in $sections{
+        body.#{$name} #{$nav} a[href='##{$name}'] {
+            @content;
+        }
+    }
+}

@@ -1,0 +1,77 @@
+#buildScheduleModal .modal-header,
+#autoScheduleModal .modal-header,
+#manualScheduleModal .modal-header,
+#editScheduleModal .modal-header,
+#inputRateModal .modal-header {
+  background: #5d9cec;
+  color: #FFF;
+}
+.schedule-form,
+.invoice-apply-rate-form {
+  max-width: 320px;
+  margin: 20px auto;
+}
+.invoice-apply-rate-form {
+  display: none;
+}
+.invoice-list .invoice-li {
+  border-bottom: 1px solid #DDD;
+  &:last-child {
+    border-bottom: none;
+  }
+  &:first-child {
+    border-bottom: 1px solid #DDD;
+  }
+}
+.invoice-list .invoice-li .li-head {
+  position: relative;
+  padding: 10px 0;
+  span {
+    display: block;
+    color: green;
+  }
+}
+.invoice-list .invoice-li .li-head::after {
+  content: "\f013";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #DDD;
+  position: absolute;
+  right: 5px;
+  top: 40%;
+  cursor: pointer;
+}
+.invoice-list .invoice-li > strong {}
+.invoice-list .invoice-li > .li-body {
+  display: none;
+  margin-bottom: 10px;
+}
+.schedule-form .red {
+  color: red;
+}
+
+.btn-copy-prev-season.disabled {
+  &:hover, &:focus, &:active {
+    color: #999;
+  }
+  cursor: default;
+}
+#inputRateModal .modal-body > div {
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+#inputRateModal .form-group > div > label {
+  margin: 0;
+  font-weight: normal;
+  & span[data-original-total] {
+    color: red;
+  }
+  & span[data-adjusted-total] {
+    color: green;
+  }
+}
