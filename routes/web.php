@@ -13,6 +13,10 @@
 
 Auth::routes();
 
+Route::get( '/welcome', function () {
+	return view('welcome');
+});
+
 Route::get( '/', function () {
 	if ( \Illuminate\Support\Facades\Auth::check() ) {
 		return redirect( 'admin' );
