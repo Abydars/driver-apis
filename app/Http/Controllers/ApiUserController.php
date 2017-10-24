@@ -78,7 +78,14 @@ class ApiUserController extends Controller
 	{
 		$user = $this->get_user( $id );
 
-		$user->fill( $request->only( [ 'email', 'phone', 'udid' ] ) );
+		if ( $request->has( 'old_password' ) ) {
+			$old_password = $request->get( 'old_password' );
+			if ( $user->password != bcrypt( $old_password ) ) {
+				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.user.incorrect_old_password' ) );
+			}
+		}
+
+		$user->fill( $request->only( [ 'username', 'phone', 'password' ] ) );
 
 		if ( $user->save() ) {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.user.update_success' ) );
