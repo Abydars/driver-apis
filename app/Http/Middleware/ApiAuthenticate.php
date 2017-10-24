@@ -30,6 +30,6 @@ class ApiAuthenticate
 			}
 		}
 
-		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.UNAUTHORIZED' ), null, $token);
+		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.UNAUTHORIZED' ), $token);
 	}
 }
