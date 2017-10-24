@@ -27,7 +27,8 @@ class ApiAuthController extends Controller
 	{
 		$validation_rules = [
 			'email'    => 'required|exists:users,email',
-			'password' => 'required'
+			'password' => 'required',
+			'udid'     => 'required'
 		];
 
 		$validator = Validator::make( $request->all(), $validation_rules );
@@ -37,7 +38,7 @@ class ApiAuthController extends Controller
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
 		}
 
-		$user         = User::with('role')->where( 'email', $request->input( 'email' ) )->first();
+		$user         = User::with( 'role' )->where( 'email', $request->input( 'email' ) )->first();
 		$is_logged_in = Auth::attempt( [
 			                               'email'    => $request->input( 'email' ),
 			                               'password' => $request->input( 'password' )
@@ -46,6 +47,9 @@ class ApiAuthController extends Controller
 		if ( $is_logged_in ) {
 			if ( ! empty( $user ) ) {
 				$token = Token::updateToken( $user );
+
+				$user->udid = $request->get( 'udid' );
+				$user->save();
 
 				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), [
 					'user'  => $user,
@@ -93,7 +97,7 @@ class ApiAuthController extends Controller
 		                      ] );
 
 		if ( $user->id > 0 ) {
-			$user = User::with('role')->find( $user->id );
+			$user = User::with( 'role' )->find( $user->id );
 
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $user );
 		} else {
