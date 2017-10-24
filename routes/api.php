@@ -20,15 +20,6 @@ Route::post( 'v1/user/login', 'ApiAuthController@login' );
 Route::post( 'v1/user/register', 'ApiAuthController@register' );
 Route::post( 'v1/passenger/login', 'ApiPassengerController@login' );
 
-Route::group( [ 'prefix' => 'v1/', 'middleware' => 'anytoken' ], function () {
-
-	Route::group( [ 'prefix' => 'ads' ], function () {
-		Route::get( 'all', 'ApiAdsController@data' )->name( 'ad.data' );
-		Route::post( '{advertisement_id}/submit', 'ApiAdsController@submit' )->name( 'ad.submit' );
-	} );
-
-} );
-
 /**
  * User Routes
  */
@@ -85,6 +76,15 @@ Route::group( [ 'prefix' => 'v1/p', 'middleware' => 'ptoken' ], function () {
 
 	Route::group( [ 'prefix' => 'message' ], function () {
 		Route::post( 'add', 'ApiMessageController@add' )->name( 'message.add' );
+	} );
+
+} );
+
+Route::group( [ 'prefix' => 'v1/', 'middleware' => 'anytoken' ], function () {
+
+	Route::group( [ 'prefix' => 'ads' ], function () {
+		Route::get( 'all', 'ApiAdsController@data' )->name( 'ad.data' );
+		Route::post( '{advertisement_id}/submit', 'ApiAdsController@submit' )->name( 'ad.submit' );
 	} );
 
 } );
