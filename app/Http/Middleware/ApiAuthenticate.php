@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Request;
 use JSONResponse;
 use Token;
 
@@ -13,7 +14,7 @@ class ApiAuthenticate
 	/**
 	 * Handle an incoming request.
 	 *
-	 * @param  \Illuminate\Http\Request $request
+	 * @param  Request $request
 	 * @param  \Closure $next
 	 *
 	 * @return mixed
@@ -30,6 +31,6 @@ class ApiAuthenticate
 			}
 		}
 
-		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.UNAUTHORIZED' ) );
+		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.UNAUTHORIZED' ), $_SERVER );
 	}
 }
