@@ -68,7 +68,7 @@ class ApiAuthController extends Controller
 	{
 		$validation_rules = [
 			'email'    => 'required|email|unique:users,email',
-			'username' => 'required|unique:users,username',
+			'username' => 'required',
 			'password' => 'required',
 			'udid'     => 'required',
 			'phone'    => 'nullable'
