@@ -80,6 +80,7 @@ Route::group( [ 'prefix' => 'v1/p', 'middleware' => 'ptoken' ], function () {
 
 } );
 
+/*
 Route::group( [ 'prefix' => 'v1/', 'middleware' => 'anytoken' ], function () {
 
 	Route::group( [ 'prefix' => 'ads' ], function () {
@@ -88,3 +89,4 @@ Route::group( [ 'prefix' => 'v1/', 'middleware' => 'anytoken' ], function () {
 	} );
 
 } );
+*/
