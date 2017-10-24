@@ -85,7 +85,9 @@ class ApiUserController extends Controller
 			}
 		}
 
-		$user->fill( $request->only( [ 'username', 'phone', 'password' ] ) );
+		$data = $request->all();//only( [ 'username', 'phone', 'password' ] );
+
+		$user->fill( $data );
 
 		if ( $user->save() ) {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.user.update_success' ) );
