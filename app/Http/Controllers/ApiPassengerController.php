@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use App\Notifications\NewPassenger;
+use App\Notifications\RenewPassenger;
 use App\Passenger;
 use App\Pricing;
 use App\User;
@@ -51,13 +52,19 @@ class ApiPassengerController extends Controller
 			$passenger->fill( $values );
 
 			$passenger->save();
+
+			try {
+				$user->notify( new RenewPassenger( $passenger ) );
+			} catch ( \Exception $e ) {
+
+			}
 		} else {
 			$passenger = Passenger::create( $values );
 
 			if ( $passenger->id > 0 ) {
 				try {
 					$user->notify( new NewPassenger( Passenger::find( $passenger->id ) ) );
-				} catch (\Exception $e) {
+				} catch ( \Exception $e ) {
 
 				}
 
