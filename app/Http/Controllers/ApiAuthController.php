@@ -74,7 +74,7 @@ class ApiAuthController extends Controller
 			'email'    => 'required|email|unique:users,email',
 			'username' => 'required',
 			'password' => 'required',
-			//'udid'     => 'required',
+			'udid'     => 'required',
 			'phone'    => 'nullable'
 		];
 
