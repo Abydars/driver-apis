@@ -84,6 +84,35 @@ class ApiPassengerController extends Controller
 
 	/**
 	 * @param $id
+	 * @param Request $request
+	 *
+	 * @return mixed
+	 */
+	public function logout( $id, Request $request )
+	{
+		$validation_rules = [
+			'udid' => 'required'
+		];
+
+		$validator = Validator::make( $request->all(), $validation_rules );
+		$messages  = $validator->messages()->all();
+
+		if ( $validator->fails() ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
+		}
+
+		$passenger = Passenger::find( $id );
+
+		if ( $passenger->udid == $request->get( 'udid' ) ) {
+			$passenger->udid = '';
+			$passenger->save();
+		}
+
+		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.passenger.logout' ) );
+	}
+
+	/**
+	 * @param $id
 	 *
 	 * @return mixed
 	 */
