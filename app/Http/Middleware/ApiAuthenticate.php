@@ -21,7 +21,7 @@ class ApiAuthenticate
 	 */
 	public function handle( $request, Closure $next )
 	{
-		$token = $request->header( 'Authorization' );
+		$token = $request->header( 'Authorization1' );
 
 		if ( $token ) {
 			$user = Token::verifyToken( $token, 'user' );
@@ -31,6 +31,6 @@ class ApiAuthenticate
 			}
 		}
 
-		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.UNAUTHORIZED' ), $_SERVER );
+		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.UNAUTHORIZED' ) );
 	}
 }

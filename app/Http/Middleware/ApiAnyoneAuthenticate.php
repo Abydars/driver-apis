@@ -20,7 +20,7 @@ class ApiAnyoneAuthenticate
 	 */
 	public function handle( $request, Closure $next )
 	{
-		$token = $request->header( 'Authorization' );
+		$token = $request->header( 'Authorization1' );
 
 		if ( $token ) {
 			$is_user      = Token::verifyToken( $token, 'user' );

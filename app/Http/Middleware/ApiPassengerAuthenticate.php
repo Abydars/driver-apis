@@ -19,7 +19,7 @@ class ApiPassengerAuthenticate
 	 */
 	public function handle( $request, Closure $next )
 	{
-		$token = $request->header( 'Authorization' );
+		$token = $request->header( 'Authorization1' );
 
 		if ( $token ) {
 			$user = Token::verifyToken( $token, 'passenger' );
