@@ -20,6 +20,9 @@ Route::post( 'v1/user/login', 'ApiAuthController@login' );
 Route::post( 'v1/user/register', 'ApiAuthController@register' );
 Route::post( 'v1/passenger/login', 'ApiPassengerController@login' );
 
+Route::post( 'v1/p/{passenger_id}/logout', 'ApiPassengerController@logout' )->name( 'passenger.logout' );
+Route::post( 'v1/u/{user_id}/logout', 'ApiAuthController@logout' )->name( 'user.logout' );
+
 /**
  * User Routes
  */
@@ -32,7 +35,6 @@ Route::group( [ 'prefix' => 'v1/u', 'middleware' => 'token' ], function () {
 		Route::get( '{user_id}/jobs/{status}/filter', 'ApiUserController@filter_jobs' )->name( 'user.filter_jobs' );
 		Route::delete( '{user_id}', 'ApiUserController@deleteUserById' )->name( 'user.delete' );
 		Route::post( '{user_id}/update', 'ApiUserController@updateUserById' )->name( 'user.update' );
-		Route::post( '{user_id}/logout', 'ApiAuthController@logout' )->name( 'user.logout' );
 	} );
 
 	Route::get( '{user_id}/passengers', 'ApiUserController@passengers' )->name( 'user.passengers' );
@@ -68,7 +70,6 @@ Route::group( [ 'prefix' => 'v1/p', 'middleware' => 'ptoken' ], function () {
 
 	Route::group( [ 'prefix' => 'passenger' ], function () {
 		Route::get( '{passenger_id}', 'ApiPassengerController@get' )->name( 'passenger.get' );
-		Route::post( '{passenger_id}/logout', 'ApiPassengerController@logout' )->name( 'passenger.logout' );
 	} );
 
 	Route::group( [ 'prefix' => 'job' ], function () {
