@@ -7,6 +7,7 @@ use App\Message;
 use App\Passenger;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use App\User;
 use JSONResponse;
@@ -80,7 +81,12 @@ class ApiUserController extends Controller
 
 		if ( $request->has( 'old_password' ) ) {
 			$old_password = $request->get( 'old_password' );
-			if ( $user->password != bcrypt( $old_password ) ) {
+
+			$is_authenticated = Auth::attempt( [
+				                                   'email'    => $user->email,
+				                                   'password' => $old_password
+			                                   ] );
+			if ( ! $is_authenticated ) {
 				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.user.incorrect_old_password' ) );
 			}
 		}
@@ -88,6 +94,10 @@ class ApiUserController extends Controller
 		$data = $request->all();//only( [ 'username', 'phone', 'password' ] );
 
 		$user->fill( $data );
+
+		if ( $request->has( 'password' ) ) {
+			$user->password = bcrypt( $request->get( 'password' ) );
+		}
 
 		if ( $user->save() ) {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.user.update_success' ) );
