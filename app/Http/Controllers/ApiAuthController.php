@@ -67,7 +67,7 @@ class ApiAuthController extends Controller
 	public function register( Request $request )
 	{
 		$validation_rules = [
-			'email'    => 'required|unique:users,email',
+			'email'    => 'required|email|unique:users,email',
 			'username' => 'required|unique:users,username',
 			'password' => 'required',
 			'udid'     => 'required',
