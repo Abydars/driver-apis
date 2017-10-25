@@ -64,7 +64,8 @@ class NewPassenger extends Notification
 
 		return OneSignalMessage::create()
 		                       ->subject( 'New Passenger' )
-		                       ->body( $body );
+		                       ->body( $body )
+		                       ->setData( 'passenger_id', $this->passenger->id );
 	}
 
 	/**
