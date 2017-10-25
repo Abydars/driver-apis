@@ -189,7 +189,8 @@ class ApiPassengerController extends Controller
 
 		if ( $passenger ) {
 			$jobs = Job::where( 'passenger_id', $id )
-			           ->where( 'user_id', $passenger->user_id );
+			           ->where( 'user_id', $passenger->user_id )
+			           ->orderBy( 'timestamp', 'desc' );
 
 			$limit    = $request->input( 'limit', 5 );
 			$paginate = $jobs->paginate( $limit );
