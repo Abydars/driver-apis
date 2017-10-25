@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Job;
 use App\Message;
 use App\Notifications\NewPassenger;
 use App\Notifications\RenewPassenger;
@@ -174,5 +175,31 @@ class ApiPassengerController extends Controller
 		}
 
 		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.passenger.not_found' ) );
+	}
+
+	/**
+	 * @param $id
+	 * @param Request $request
+	 *
+	 * @return mixed
+	 */
+	public function jobs( $id, Request $request )
+	{
+		$passenger = Passenger::find( $id );
+
+		if ( $passenger ) {
+			$jobs = Job::where( 'passenger_id', $id )
+			           ->where( 'user_id', $passenger->user_id );
+
+			$limit    = $request->input( 'limit', 5 );
+			$paginate = $jobs->paginate( $limit );
+
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $paginate->items(), null, [
+				"current_page" => $paginate->currentPage(),
+				"total_pages"  => ceil( $paginate->total() / $paginate->perPage() )
+			] );
+		} else {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.passenger.not_found' ) );
+		}
 	}
 }

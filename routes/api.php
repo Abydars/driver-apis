@@ -70,6 +70,7 @@ Route::group( [ 'prefix' => 'v1/p', 'middleware' => 'ptoken' ], function () {
 
 	Route::group( [ 'prefix' => 'passenger' ], function () {
 		Route::get( '{passenger_id}', 'ApiPassengerController@get' )->name( 'passenger.get' );
+		Route::get( '{passenger_id}/jobs', 'ApiPassengerController@jobs' )->name( 'passenger.jobs' );
 	} );
 
 	Route::group( [ 'prefix' => 'job' ], function () {
