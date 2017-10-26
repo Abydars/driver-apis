@@ -67,7 +67,7 @@ class NewPassenger extends Notification
 		                       ->body( $body )
 		                       ->setData( 'action', 'SinglePassenger' )
 		                       //->setData( 'passenger_id', $this->passenger->id )
-		                       ->url( 'hcbox://passenger/' . $this->passenger->id );
+		                       //->url( 'hcbox://passenger/' . $this->passenger->id );
 	}
 
 	/**
