@@ -133,7 +133,7 @@ class ApiJobController extends Controller
 				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.bid_success' ) );
 			}
 		} else {
-			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.already_bidded' ) );
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.already_bidded' ), [$job, $job->status] );
 		}
 
 		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.bid_failed' ) );
