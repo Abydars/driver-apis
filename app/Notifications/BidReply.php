@@ -9,6 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 
@@ -67,7 +68,10 @@ class BidReply extends Notification
 
 		return OneSignalMessage::create()
 		                       ->subject( 'Quotation reply' )
-		                       ->body( $message );
+		                       ->body( $message )
+		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_job' ) )
+		                       ->setData( 'job_id', $this->job->id )
+		                       ->url( Config::get( 'constants.notification.host' ) . 'job/' . $this->job->id );
 	}
 
 	/**

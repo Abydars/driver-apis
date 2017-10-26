@@ -2,7 +2,7 @@
 
 return [
 	"notification"   => [
-		"host"    => "hcbox://passenger/",
+		"host"    => "hcbox://",
 		"actions" => [
 			"single_passenger" => "SinglePassenger"
 		]

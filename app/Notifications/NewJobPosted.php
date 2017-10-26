@@ -76,7 +76,7 @@ class NewJobPosted extends Notification
 		                       ->body( $message )
 		                       ->setData( 'action', $action )
 		                       ->setData( 'job_id', $this->job->id )
-		                       ->url( Config::get( 'constants.notification.host' ) . $this->job->id );
+		                       ->url( Config::get( 'constants.notification.host' ) . 'job/' . $this->job->id );
 	}
 
 	/**
