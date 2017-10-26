@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 
@@ -64,7 +65,10 @@ class RenewPassenger extends Notification
 
 		return OneSignalMessage::create()
 		                       ->subject( 'Rejoin Passenger' )
-		                       ->body( $body );
+		                       ->body( $body )
+		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_passenger' ) )
+		                       ->setData( 'passenger_id', $this->passenger->id )
+		                       ->url( Config::get( 'constants.notification.host' ) . $this->passenger->id );
 	}
 
 	/**

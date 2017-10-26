@@ -64,14 +64,19 @@ class NewJobPosted extends Notification
 	{
 		$passenger = Passenger::find( $this->job->passenger_id );
 		$message   = "New job has been posted by {$passenger->name}";
+		$action    = Config::get( 'constants.notification.actions.single_job' );
 
 		if ( $this->job->status == 'bid' ) {
 			$message = "{$passenger->name} need a quotation";
+			$action  = Config::get( 'constants.notification.actions.single_bid' );
 		}
 
 		return OneSignalMessage::create()
 		                       ->subject( 'New Job' )
-		                       ->body( $message );
+		                       ->body( $message )
+		                       ->setData( 'action', $action )
+		                       ->setData( 'job_id', $this->job->id )
+		                       ->url( Config::get( 'constants.notification.host' ) . $this->job->id );
 	}
 
 	/**

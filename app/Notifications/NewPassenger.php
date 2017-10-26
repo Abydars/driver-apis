@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 
@@ -65,7 +66,7 @@ class NewPassenger extends Notification
 		return OneSignalMessage::create()
 		                       ->subject( 'New Passenger' )
 		                       ->body( $body )
-		                       ->setData( 'action', 'SinglePassenger' )
+		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_passenger' ) )
 		                       ->setData( 'passenger_id', $this->passenger->id )
 		                       ->url( 'hcbox://passenger/' . $this->passenger->id );
 	}

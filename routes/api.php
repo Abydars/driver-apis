@@ -31,12 +31,12 @@ Route::group( [ 'prefix' => 'v1/u', 'middleware' => 'token' ], function () {
 	Route::group( [ 'prefix' => 'user' ], function () {
 		Route::get( 'all', 'ApiUserController@data' )->name( 'user.data' );
 		Route::get( '{user_id}', 'ApiUserController@getUserById' )->name( 'user.get' );
-		Route::get( '{user_id}/jobs/{status}', 'ApiUserController@jobs' )->name( 'user.jobs' );
-		Route::get( '{user_id}/jobs/{status}/filter', 'ApiUserController@filter_jobs' )->name( 'user.filter_jobs' );
 		Route::delete( '{user_id}', 'ApiUserController@deleteUserById' )->name( 'user.delete' );
 		Route::post( '{user_id}/update', 'ApiUserController@updateUserById' )->name( 'user.update' );
 	} );
 
+	Route::get( '{user_id}/jobs/{status}', 'ApiUserController@jobs' )->name( 'user.jobs' );
+	Route::get( '{user_id}/jobs/{status}/filter', 'ApiUserController@filter_jobs' )->name( 'user.filter_jobs' );
 	Route::get( '{user_id}/passengers', 'ApiUserController@passengers' )->name( 'user.passengers' );
 	Route::get( '{user_id}/threads', 'ApiUserController@threads' )->name( 'user.threads' );
 

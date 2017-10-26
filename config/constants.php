@@ -1,6 +1,12 @@
 <?php
 
 return [
+	"notification"   => [
+		"host"    => "hcbox://passenger/",
+		"actions" => [
+			"single_passenger" => "SinglePassenger"
+		]
+	],
 	"HTTP_CODES"     => [
 		"UNAUTHORIZED"   => 401,
 		"NOT_FOUND"      => 404,
