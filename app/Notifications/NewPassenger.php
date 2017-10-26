@@ -65,7 +65,7 @@ class NewPassenger extends Notification
 		return OneSignalMessage::create()
 		                       ->subject( 'New Passenger' )
 		                       ->body( $body )
-		                       ->setData( 'action', 'SinglePassenger' )
+		                       ->setData( 'action', 'SinglePassenger' );
 		                       //->setData( 'passenger_id', $this->passenger->id )
 		                       //->url( 'hcbox://passenger/' . $this->passenger->id );
 	}
