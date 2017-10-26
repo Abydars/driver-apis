@@ -183,7 +183,7 @@ class ApiJobController extends Controller
 	 */
 	public function get( $id )
 	{
-		$job = Job::find( $id );
+		$job = Job::with('passenger')->find( $id );
 
 		if ( $job ) {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $job );
