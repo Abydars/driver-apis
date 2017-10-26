@@ -175,4 +175,20 @@ class ApiJobController extends Controller
 
 		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.bid_accept_failed' ) );
 	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return mixed
+	 */
+	public function get( $id )
+	{
+		$job = Job::find( $id );
+
+		if ( $job ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $job );
+		} else {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.not_found' ) );
+		}
+	}
 }

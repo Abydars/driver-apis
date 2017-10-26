@@ -57,6 +57,7 @@ Route::group( [ 'prefix' => 'v1/u', 'middleware' => 'token' ], function () {
 	} );
 
 	Route::group( [ 'prefix' => 'job' ], function () {
+		Route::get( '{job_id}', 'ApiJobController@get' )->name( 'job.get' );
 		Route::post( '{job_id}/complete', 'ApiJobController@complete' )->name( 'job.complete' );
 		Route::post( '{job_id}/bid_reply', 'ApiJobController@bid_reply' )->name( 'job.bid_reply' );
 	} );
