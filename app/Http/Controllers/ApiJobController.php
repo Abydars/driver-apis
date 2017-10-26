@@ -120,20 +120,24 @@ class ApiJobController extends Controller
 
 		$job = Job::with( 'passenger' )->find( $id );
 
-		if ( $job && $job->status == 'bid' ) {
-			$job->fill( $request->only( [ 'bid_amount' ] ) );
+		if ( $job ) {
+			if ( $job->status == 'bid' ) {
+				$job->fill( $request->only( [ 'bid_amount' ] ) );
 
-			if ( $job->save() ) {
-				try {
-					$job->passenger->notify( new BidReply( $job ) );
-				} catch ( \Exception $e ) {
+				if ( $job->save() ) {
+					try {
+						$job->passenger->notify( new BidReply( $job ) );
+					} catch ( \Exception $e ) {
 
+					}
+
+					return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.bid_success' ) );
 				}
-
-				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.bid_success' ) );
+			} else {
+				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.already_bidded' ) );
 			}
 		} else {
-			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.already_bidded' ), [$job, $job->status] );
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.not_found' ) );
 		}
 
 		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.bid_failed' ) );
