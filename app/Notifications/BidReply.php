@@ -69,9 +69,9 @@ class BidReply extends Notification
 		return OneSignalMessage::create()
 		                       ->subject( 'Quotation reply' )
 		                       ->body( $message )
-		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_job' ) )
+		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_passenger_job' ) )
 		                       ->setData( 'job_id', $this->job->id )
-		                       ->url( Config::get( 'constants.notification.host' ) . 'job/' . $this->job->id );
+		                       ->url( Config::get( 'constants.notification.host' ) . 'passenger_job/' . $this->job->id );
 	}
 
 	/**

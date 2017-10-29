@@ -4,7 +4,9 @@ return [
 	"notification"   => [
 		"host"    => "hcbox://",
 		"actions" => [
-			"single_passenger" => "SinglePassenger"
+			"single_passenger"     => "SinglePassenger",
+			"single_job"           => "SingleJob",
+			"single_passenger_job" => "SinglePassengerJob"
 		]
 	],
 	"HTTP_CODES"     => [
