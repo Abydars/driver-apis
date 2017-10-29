@@ -15,7 +15,8 @@ class Job extends Model
 	protected $fillable = [
 		'pickup',
 		'drop',
-		'comments',
+		'passenger_comments',
+		'user_comments',
 		'passenger_id',
 		'user_id',
 		'bid_amount',
