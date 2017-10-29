@@ -75,6 +75,7 @@ Route::group( [ 'prefix' => 'v1/p', 'middleware' => 'ptoken' ], function () {
 	} );
 
 	Route::group( [ 'prefix' => 'job' ], function () {
+		Route::get( '{job_id}', 'ApiJobController@get' )->name( 'job.get' );
 		Route::post( 'add', 'ApiJobController@add' )->name( 'job.add' );
 		Route::post( '{job_id}/bid_accept', 'ApiJobController@bid_accept' )->name( 'job.bid_accept' );
 	} );
