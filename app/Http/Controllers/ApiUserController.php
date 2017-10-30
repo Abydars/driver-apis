@@ -291,8 +291,6 @@ class ApiUserController extends Controller
 				                 ] );
 			} );
 
-			$csv->output( $filename );
-
 		} else {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.not_found' ) );
 		}
