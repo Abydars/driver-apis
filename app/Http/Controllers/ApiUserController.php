@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use App\User;
+use Illuminate\Support\Facades\Storage;
 use JSONResponse;
+use League\Csv\Writer;
 use Validator;
 
 class ApiUserController extends Controller
@@ -240,8 +242,9 @@ class ApiUserController extends Controller
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
 		}
 
-		$path = 'summaries/summary-' . $id . '.csv';
-		$jobs = Job::with( [ 'passenger' ] )->where( 'user_id', $id )->where( 'status', 'done' );
+		$filename = 'summary-' . $id . '.csv';
+		$path     = 'app/public/' . $filename;
+		$jobs     = Job::with( [ 'passenger' ] )->where( 'user_id', $id )->where( 'status', 'done' );
 
 		if ( $request->has( 'from_date' ) ) {
 			$jobs = $jobs->whereDate( 'timestamp', '>=', $request->input( 'from_date' ) );
@@ -251,8 +254,9 @@ class ApiUserController extends Controller
 		}
 
 		if ( $jobs->exists() ) {
-			$csv = fopen( public_path( $path ), "w" );
+			//$csv = fopen( public_path( $path ), "w" );
 
+			/*
 			fputcsv( $csv, [
 				'Passenger',
 				'Pickup',
@@ -272,14 +276,30 @@ class ApiUserController extends Controller
 			} );
 
 			fclose( $csv );
+			*/
+			//$csv = Writer::createFromPath( storage_path( $path ), "w+" );
+			$csv = Writer::createFromFileObject( new \SplFileObject( storage_path( $path ), "w+" ) );
+			$csv->insertOne( [ 'Passenger', 'Pickup', 'Drop', 'Amount', 'Timestamp' ] );
+
+			$jobs->each( function ( $job ) use ( &$csv ) {
+				$csv->insertOne( [
+					                 $job->passenger->name,
+					                 $job->pickup,
+					                 $job->drop,
+					                 $job->final_amount,
+					                 $job->timestamp_obj->toDateTimeString()
+				                 ] );
+			} );
+
+			$csv->output( $filename );
 
 		} else {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.not_found' ) );
 		}
 
-		if ( file_exists( public_path( $path ) ) ) {
+		if ( file_exists( storage_path( $path ) ) ) {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), [
-				'url' => url( $path )
+				'path' => asset( 'storage/' . $filename )
 			] );
 		}
 
