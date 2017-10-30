@@ -241,7 +241,7 @@ class ApiUserController extends Controller
 		}
 
 		$path = 'summaries/summary-' . $id . '.csv';
-		$jobs = Job::with( [ 'passenger' ] )->where( 'user_id', $id );
+		$jobs = Job::with( [ 'passenger' ] )->where( 'user_id', $id )->where( 'status', 'done' );
 
 		if ( $request->has( 'from_date' ) ) {
 			$jobs = $jobs->whereDate( 'timestamp', '>=', $request->input( 'from_date' ) );
@@ -253,12 +253,20 @@ class ApiUserController extends Controller
 		if ( $jobs->exists() ) {
 			$csv = fopen( public_path( $path ), "w" );
 
+			fputcsv( $csv, [
+				'Passenger',
+				'Pickup',
+				'Drop',
+				'Amount',
+				'Date/Time'
+			] );
+
 			$jobs->each( function ( $job ) use ( &$csv ) {
 				fputcsv( $csv, [
 					$job->passenger->name,
 					$job->pickup,
 					$job->drop,
-					$job->final_amount,
+					'$' . $job->final_amount,
 					$job->timestamp_obj->toDateTimeString()
 				] );
 			} );
@@ -271,7 +279,7 @@ class ApiUserController extends Controller
 
 		if ( file_exists( public_path( $path ) ) ) {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), [
-				'url' => url( public_path( $path ) )
+				'url' => url( $path )
 			] );
 		}
 
