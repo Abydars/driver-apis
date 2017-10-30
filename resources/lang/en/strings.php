@@ -12,7 +12,9 @@ return [
 		"invalid"        => "Authentication failed"
 	],
 	"passenger" => [
-		"not_found" => "Passenger not found"
+		"not_found"      => "Passenger not found",
+		"update_success" => "Passenger updated successfully",
+		"update_failed"  => "Failed to update passenger"
 	],
 	"pricing"   => [
 		"creation_failed" => "Failed to add pricing",
@@ -21,7 +23,7 @@ return [
 		"destroyed"       => "Pricing deleted successfully",
 		"destroy_failed"  => "Failed to delete pricing",
 	],
-	"message" => [
+	"message"   => [
 		"creation_failed" => "Failed to add new message",
 	]
 ];

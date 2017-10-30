@@ -18,6 +18,7 @@ class Passenger extends Model
 		'name',
 		'phone',
 		'user_id',
+		'comments',
 		'udid',
 		'meta_data',
 		'registration_date'

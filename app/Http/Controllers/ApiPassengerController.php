@@ -89,6 +89,29 @@ class ApiPassengerController extends Controller
 	 *
 	 * @return mixed
 	 */
+	public function update( $id, Request $request )
+	{
+		$passenger = Passenger::find( $id );
+		if ( $passenger ) {
+			$passenger->fill( $request->fill( [
+				                                  'comments' => $request->input( 'comments' )
+			                                  ] ) );
+			if ( $passenger->save() ) {
+				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.passenger.update_success' ) );
+			}
+		} else {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.passenger.not_found' ) );
+		}
+
+		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.passenger.update_failed' ) );
+	}
+
+	/**
+	 * @param $id
+	 * @param Request $request
+	 *
+	 * @return mixed
+	 */
 	public function logout( $id, Request $request )
 	{
 		$validation_rules = [
@@ -190,7 +213,7 @@ class ApiPassengerController extends Controller
 		if ( $passenger ) {
 			$jobs = Job::where( 'passenger_id', $id )
 			           ->where( 'user_id', $passenger->user_id )
-			           ->orderBy( 'timestamp', 'desc' );
+			           ->orderBy( 'id', 'desc' );
 
 			$limit    = $request->input( 'limit', 5 );
 			$paginate = $jobs->paginate( $limit );

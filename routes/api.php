@@ -44,6 +44,7 @@ Route::group( [ 'prefix' => 'v1/u', 'middleware' => 'token' ], function () {
 		Route::get( '{passenger_id}', 'ApiPassengerController@get' )->name( 'passenger.get' );
 		Route::get( '{passenger_id}/pricing', 'ApiPassengerController@pricing' )->name( 'passenger.pricing' );
 		Route::get( '{passenger_id}/messages', 'ApiPassengerController@messages' )->name( 'passenger.messages' );
+		Route::post( '{passenger_id}/update', 'ApiPassengerController@update' )->name( 'passenger.update' );
 	} );
 
 	Route::group( [ 'prefix' => 'pricing' ], function () {

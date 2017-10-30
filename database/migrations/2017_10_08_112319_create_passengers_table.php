@@ -18,6 +18,7 @@ class CreatePassengersTable extends Migration
 			$table->increments( 'id' );
 			$table->string( 'name' );
 			$table->string( 'phone' )->nullable();
+			$table->string( 'user_comments' )->nullable();
 			$table->string( 'udid' )->nullable();
 			$table->longText( 'meta_data' )->nullable();
 			$table->integer( 'user_id' )->unsigned();
