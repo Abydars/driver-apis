@@ -6,6 +6,7 @@ use App\Job;
 use App\Message;
 use App\Passenger;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -217,5 +218,63 @@ class ApiUserController extends Controller
 			"current_page" => $paginate->currentPage(),
 			"total_pages"  => ceil( $paginate->total() / $paginate->perPage() )
 		] );
+	}
+
+	/**
+	 * @param $id
+	 * @param Request $request
+	 *
+	 * @return mixed
+	 */
+	public function generate( $id, Request $request )
+	{
+		$validation_rules = [
+			'from_date' => 'date_format:Y-m-d',
+			'to_date'   => 'date_format:Y-m-d'
+		];
+
+		$validator = Validator::make( $request->all(), $validation_rules );
+		$messages  = $validator->messages()->all();
+
+		if ( $validator->fails() ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
+		}
+
+		$path = 'summaries/summary-' . $id . '.csv';
+		$jobs = Job::with( [ 'passenger' ] )->where( 'user_id', $id );
+
+		if ( $request->has( 'from_date' ) ) {
+			$jobs = $jobs->whereDate( 'timestamp', '>=', $request->input( 'from_date' ) );
+		}
+		if ( $request->has( 'to_date' ) ) {
+			$jobs = $jobs->whereDate( 'timestamp', '<=', $request->input( 'to_date' ) );
+		}
+
+		if ( $jobs->exists() ) {
+			$csv = fopen( public_path( $path ), "w" );
+
+			$jobs->each( function ( $job ) use ( &$csv ) {
+				fputcsv( $csv, [
+					$job->passenger->name,
+					$job->pickup,
+					$job->drop,
+					$job->final_amount,
+					$job->timestamp_obj->toDateTimeString()
+				] );
+			} );
+
+			fclose( $csv );
+
+		} else {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.not_found' ) );
+		}
+
+		if ( file_exists( public_path( $path ) ) ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), [
+				'url' => url( public_path( $path ) )
+			] );
+		}
+
+		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.job.generate_failed' ) );
 	}
 }

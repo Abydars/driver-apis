@@ -7,6 +7,8 @@ use App\Notifications\BidAccepted;
 use App\Notifications\BidReply;
 use App\Notifications\NewJobPosted;
 use App\User;
+use Dompdf\Adapter\PDFLib;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Validator;

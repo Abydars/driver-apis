@@ -35,6 +35,7 @@ Route::group( [ 'prefix' => 'v1/u', 'middleware' => 'token' ], function () {
 		Route::post( '{user_id}/update', 'ApiUserController@updateUserById' )->name( 'user.update' );
 	} );
 
+	Route::post( '{user_id}/jobs/generate', 'ApiUserController@generate' )->name( 'user.generate' );
 	Route::get( '{user_id}/jobs/{status}', 'ApiUserController@jobs' )->name( 'user.jobs' );
 	Route::get( '{user_id}/jobs/{status}/filter', 'ApiUserController@filter_jobs' )->name( 'user.filter_jobs' );
 	Route::get( '{user_id}/passengers', 'ApiUserController@passengers' )->name( 'user.passengers' );
