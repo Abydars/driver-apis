@@ -70,7 +70,7 @@ class BidReply extends Notification
 		                       ->subject( 'Quotation reply' )
 		                       ->body( $message )
 		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_passenger_job' ) )
-		                       ->setData( 'job_id', $this->job->id )
+		                       ->setData( 'id', $this->job->id )
 		                       ->url( Config::get( 'constants.notification.host' ) . 'passenger_job/' . $this->job->id );
 	}
 

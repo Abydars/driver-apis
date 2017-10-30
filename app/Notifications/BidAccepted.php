@@ -74,7 +74,7 @@ class BidAccepted extends Notification
 		                       ->subject( 'Quotation ' . ( $is_accepted ? 'Accepted' : 'Declined' ) )
 		                       ->body( $message )
 		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_job' ) )
-		                       ->setData( 'job_id', $this->job->id )
+		                       ->setData( 'id', $this->job->id )
 		                       ->url( Config::get( 'constants.notification.host' ) . 'job/' . $this->job->id );
 	}
 

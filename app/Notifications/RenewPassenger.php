@@ -67,7 +67,7 @@ class RenewPassenger extends Notification
 		                       ->subject( 'Rejoin Passenger' )
 		                       ->body( $body )
 		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_passenger' ) )
-		                       ->setData( 'passenger_id', $this->passenger->id )
+		                       ->setData( 'id', $this->passenger->id )
 		                       ->url( Config::get( 'constants.notification.host' ) . 'passenger/' . $this->passenger->id );
 	}
 
