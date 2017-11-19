@@ -29,8 +29,8 @@ Route::post( 'v1/u/{user_id}/logout', 'ApiAuthController@logout' )->name( 'user.
 /*
  * Public Routes
  */
-Route::get( 'v1/public/get/{user_id}', 'ApiUserController@getPublicUser' )->name( 'public.user.get' );
-Route::get( 'v1/public/get/{passenger_id}', 'ApiPassengerController@getPublicPassenger' )->name( 'public.passenger.get' );
+Route::get( 'v1/public/user/{user_id}', 'ApiUserController@getPublicUser' )->name( 'public.user.get' );
+Route::get( 'v1/public/passenger/{passenger_id}', 'ApiPassengerController@getPublicPassenger' )->name( 'public.passenger.get' );
 
 /**
  * User Routes
