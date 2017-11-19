@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\OneSignal\OneSignalChannel;
 use NotificationChannels\OneSignal\OneSignalMessage;
 
@@ -68,7 +69,10 @@ class NewMessage extends Notification
 
 		return OneSignalMessage::create()
 		                       ->subject( 'New Message' )
-		                       ->body( $message );
+		                       ->body( $message )
+		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_thread' ) )
+		                       ->setData( 'id', $this->message->id )
+		                       ->url( Config::get( 'constants.notification.host' ) . 'message/' . $this->message->id );
 	}
 
 	/**

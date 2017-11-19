@@ -21,7 +21,7 @@ class ApiMessageController extends Controller
 	{
 		$validation_rules = [
 			'passenger_id' => 'required|exists:passengers,id',
-			'code'         => 'required|exists:users,code',
+			'user_id'      => 'required|exists:users,id',
 			'message'      => 'required',
 			'sender_type'  => 'required'
 		];
@@ -33,11 +33,9 @@ class ApiMessageController extends Controller
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
 		}
 
-		$user = User::where( 'code', $request->input( 'code' ) )->first();
-
 		$message = Message::create( [
 			                            'passenger_id' => $request->input( 'passenger_id' ),
-			                            'user_id'      => $user->id,
+			                            'user_id'      => $request->input( 'user_id' ),
 			                            'message'      => $request->input( 'message' ),
 			                            'sender_type'  => $request->input( 'sender_type' )
 		                            ] );
@@ -51,7 +49,7 @@ class ApiMessageController extends Controller
 				} else {
 					$message->passenger->notify( new NewMessage( $message ) );
 				}
-			} catch (\Exception $e) {
+			} catch ( \Exception $e ) {
 
 			}
 

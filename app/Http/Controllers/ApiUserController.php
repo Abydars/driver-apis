@@ -57,6 +57,22 @@ class ApiUserController extends Controller
 	 *
 	 * @return mixed
 	 */
+	public function getPublicUser( $id )
+	{
+		$user = $this->get_user( $id );
+
+		if ( $user ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $user );
+		} else {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.NOT_FOUND' ), null, __( 'strings.user.not_found' ) );
+		}
+	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return mixed
+	 */
 	public function deleteUserById( $id )
 	{
 		$user = $this->get_user( $id );
@@ -182,8 +198,8 @@ class ApiUserController extends Controller
 	public function filter_jobs( $id, $status, Request $request )
 	{
 		$validation_rules = [
-			'start_date' => 'required_with:end_date',
-			'end_date'   => 'required_with:start_date',
+			'start_date' => 'required_with:end_date|date_format:Y-m-d',
+			'end_date'   => 'required_with:start_date|date_format:Y-m-d',
 			'month'      => 'required_without:start_date,end_date'
 		];
 
@@ -254,30 +270,6 @@ class ApiUserController extends Controller
 		}
 
 		if ( $jobs->exists() ) {
-			//$csv = fopen( public_path( $path ), "w" );
-
-			/*
-			fputcsv( $csv, [
-				'Passenger',
-				'Pickup',
-				'Drop',
-				'Amount',
-				'Date/Time'
-			] );
-
-			$jobs->each( function ( $job ) use ( &$csv ) {
-				fputcsv( $csv, [
-					$job->passenger->name,
-					$job->pickup,
-					$job->drop,
-					'$' . $job->final_amount,
-					$job->timestamp_obj->toDateTimeString()
-				] );
-			} );
-
-			fclose( $csv );
-			*/
-			//$csv = Writer::createFromPath( storage_path( $path ), "w+" );
 			$csv = Writer::createFromFileObject( new \SplFileObject( storage_path( $path ), "w+" ) );
 			$csv->insertOne( [ 'Passenger', 'Pickup', 'Drop', 'Amount', 'Timestamp' ] );
 

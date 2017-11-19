@@ -20,8 +20,17 @@ Route::post( 'v1/user/login', 'ApiAuthController@login' );
 Route::post( 'v1/user/register', 'ApiAuthController@register' );
 Route::post( 'v1/passenger/login', 'ApiPassengerController@login' );
 
+/*
+ * Logout Routes
+ */
 Route::post( 'v1/p/{passenger_id}/logout', 'ApiPassengerController@logout' )->name( 'passenger.logout' );
 Route::post( 'v1/u/{user_id}/logout', 'ApiAuthController@logout' )->name( 'user.logout' );
+
+/*
+ * Public Routes
+ */
+Route::get( 'v1/public/get/{user_id}', 'ApiUserController@getPublicUser' )->name( 'public.user.get' );
+Route::get( 'v1/public/get/{passenger_id}', 'ApiPassengerController@getPublicPassenger' )->name( 'public.passenger.get' );
 
 /**
  * User Routes

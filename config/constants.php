@@ -6,7 +6,8 @@ return [
 		"actions" => [
 			"single_passenger"     => "passenger",
 			"single_job"           => "job",
-			"single_passenger_job" => "passenger_job"
+			"single_passenger_job" => "passenger_job",
+			"single_thread"        => "message"
 		]
 	],
 	"HTTP_CODES"     => [

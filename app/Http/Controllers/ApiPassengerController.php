@@ -154,6 +154,22 @@ class ApiPassengerController extends Controller
 	/**
 	 * @param $id
 	 *
+	 * @return mixed
+	 */
+	public function getPublicPassenger( $id )
+	{
+		$passenger = Passenger::find( $id );
+
+		if ( $passenger ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $passenger );
+		}
+
+		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.passenger.not_found' ) );
+	}
+
+	/**
+	 * @param $id
+	 *
 	 * @param Request $request
 	 *
 	 * @return mixed
