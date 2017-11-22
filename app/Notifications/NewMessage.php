@@ -69,7 +69,7 @@ class NewMessage extends Notification
 
 		return OneSignalMessage::create()
 		                       ->subject( 'New Message' )
-		                       ->body( $message )
+		                       ->body( $body )
 		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_thread' ) )
 		                       ->setData( 'id', $this->message->id )
 		                       ->url( Config::get( 'constants.notification.host' ) . 'message/' . $this->message->id );
