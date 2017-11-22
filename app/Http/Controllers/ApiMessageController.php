@@ -37,7 +37,8 @@ class ApiMessageController extends Controller
 			                            'passenger_id' => $request->input( 'passenger_id' ),
 			                            'user_id'      => $request->input( 'user_id' ),
 			                            'message'      => $request->input( 'message' ),
-			                            'sender_type'  => $request->input( 'sender_type' )
+			                            'sender_type'  => $request->input( 'sender_type' ),
+			                            'meta_data'    => $request->input( 'meta_data', null )
 		                            ] );
 
 		if ( $message->id > 0 ) {
