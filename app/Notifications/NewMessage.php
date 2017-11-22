@@ -72,6 +72,7 @@ class NewMessage extends Notification
 		                       ->body( $body )
 		                       ->setData( 'action', Config::get( 'constants.notification.actions.single_thread' ) )
 		                       ->setData( 'id', $this->message->id )
+		                       ->setData( 'meta_data', json_encode( $this->message->meta_data ) )
 		                       ->url( Config::get( 'constants.notification.host' ) . 'message/' . $this->message->id );
 	}
 
