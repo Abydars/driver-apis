@@ -45,7 +45,7 @@ class ApiMessageController extends Controller
 			'user_id'      => $request->input( 'user_id' ),
 			'message'      => $request->input( 'message' ),
 			'sender_type'  => $request->input( 'sender_type' ),
-			'meta_data'    => $meta_data,
+			'meta_data'    => $request->input( 'meta_data', [] ),
 			'is_read'      => false
 		];
 
