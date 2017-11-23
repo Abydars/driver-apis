@@ -176,7 +176,9 @@ class ApiUserController extends Controller
 	public function messages( $id, Request $request )
 	{
 		if ( User::find( $id )->exists() ) {
-			$messages = Message::where( 'user_id', $id );
+			$messages = Message::with( [ 'passenger', 'user' ] )
+			                   ->where( 'user_id', $id )
+			                   ->orderByDesc( 'id' );
 
 			if ( $request->has( 'passenger_id' ) ) {
 				$passenger_id = $request->input( 'passenger_id' );

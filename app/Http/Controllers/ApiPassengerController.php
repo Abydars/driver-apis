@@ -197,7 +197,8 @@ class ApiPassengerController extends Controller
 	{
 		if ( Passenger::find( $id )->exists() ) {
 			$messages = Message::with( [ 'passenger', 'user' ] )
-			                   ->where( 'passenger_id', $id );
+			                   ->where( 'passenger_id', $id )
+			                   ->orderByDesc( 'id' );
 
 			if ( $request->has( 'user_id' ) ) {
 				$user_id  = $request->input( 'user_id' );
