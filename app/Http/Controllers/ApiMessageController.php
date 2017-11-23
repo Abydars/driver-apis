@@ -50,7 +50,7 @@ class ApiMessageController extends Controller
 		];
 
 		if ( ! empty( $meta_data['message']['_id'] ) ) {
-			$arg['id'] = $meta_data['message']['_id'];
+			$arg['guid'] = $meta_data['message']['_id'];
 		}
 
 		if ( ! empty( $meta_data['message']['createdAt'] ) ) {
