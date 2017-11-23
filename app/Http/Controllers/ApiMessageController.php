@@ -37,7 +37,7 @@ class ApiMessageController extends Controller
 		$meta_data = $request->input( 'meta_data', [] );
 
 		if ( $meta_data ) {
-			$meta_data = json_decode( $meta_data, false );
+			$meta_data = json_decode( $meta_data, true );
 		}
 
 		$arg = [
