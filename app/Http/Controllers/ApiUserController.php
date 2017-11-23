@@ -169,6 +169,34 @@ class ApiUserController extends Controller
 
 	/**
 	 * @param $id
+	 * @param Request $request
+	 *
+	 * @return mixed
+	 */
+	public function messages( $id, Request $request )
+	{
+		if ( User::find( $id )->exists() ) {
+			$messages = Message::where( 'user_id', $id );
+
+			if ( $request->has( 'passenger_id' ) ) {
+				$passenger_id = $request->input( 'passenger_id' );
+				$messages     = $messages->where( 'passenger_id', $passenger_id );
+			}
+
+			$limit    = $request->input( 'limit', 5 );
+			$paginate = $messages->paginate( $limit );
+
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $paginate->items(), null, [
+				"current_page" => $paginate->currentPage(),
+				"total_pages"  => ceil( $paginate->total() / $paginate->perPage() )
+			] );
+		}
+
+		return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.user.not_found' ) );
+	}
+
+	/**
+	 * @param $id
 	 * @param $status
 	 * @param Request $request
 	 *

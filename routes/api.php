@@ -49,6 +49,7 @@ Route::group( [ 'prefix' => 'v1/u', 'middleware' => 'token' ], function () {
 	Route::get( '{user_id}/jobs/{status}/filter', 'ApiUserController@filter_jobs' )->name( 'user.filter_jobs' );
 	Route::get( '{user_id}/passengers', 'ApiUserController@passengers' )->name( 'user.passengers' );
 	Route::get( '{user_id}/threads', 'ApiUserController@threads' )->name( 'user.threads' );
+	Route::get( '{user_id}/messages', 'ApiUserController@messages' )->name( 'user.messages' );
 
 	Route::group( [ 'prefix' => 'passenger' ], function () {
 		Route::get( '{passenger_id}', 'ApiPassengerController@get' )->name( 'passenger.get' );
@@ -65,6 +66,7 @@ Route::group( [ 'prefix' => 'v1/u', 'middleware' => 'token' ], function () {
 
 	Route::group( [ 'prefix' => 'message' ], function () {
 		Route::post( 'add', 'ApiMessageController@add' )->name( 'message.add' );
+		Route::post( 'read', 'ApiMessageController@read' )->name( 'message.read' );
 	} );
 
 	Route::group( [ 'prefix' => 'job' ], function () {
@@ -85,6 +87,8 @@ Route::group( [ 'prefix' => 'v1/p', 'middleware' => 'ptoken' ], function () {
 		Route::get( '{passenger_id}/jobs', 'ApiPassengerController@jobs' )->name( 'passenger.jobs' );
 	} );
 
+	Route::get( '{passenger_id}/messages', 'ApiPassengerController@messages' )->name( 'passenger.messages' );
+
 	Route::group( [ 'prefix' => 'job' ], function () {
 		Route::get( '{job_id}', 'ApiJobController@get' )->name( 'job.get' );
 		Route::post( 'add', 'ApiJobController@add' )->name( 'job.add' );
@@ -93,6 +97,7 @@ Route::group( [ 'prefix' => 'v1/p', 'middleware' => 'ptoken' ], function () {
 
 	Route::group( [ 'prefix' => 'message' ], function () {
 		Route::post( 'add', 'ApiMessageController@add' )->name( 'message.add' );
+		Route::post( 'read', 'ApiMessageController@read' )->name( 'message.read' );
 	} );
 
 } );

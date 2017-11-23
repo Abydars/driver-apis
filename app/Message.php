@@ -18,7 +18,8 @@ class Message extends Model
 		'message',
 		'timestamp',
 		'meta_data',
-		'sender_type'
+		'sender_type',
+		'is_read'
 	];
 
 	/**
