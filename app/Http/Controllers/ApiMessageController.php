@@ -24,7 +24,9 @@ class ApiMessageController extends Controller
 			'passenger_id' => 'required|exists:passengers,id',
 			'user_id'      => 'required|exists:users,id',
 			'message'      => 'required',
-			'sender_type'  => 'required'
+			'sender_type'  => 'required',
+			'guid'         => 'required',
+			'timestamp'    => 'required'
 		];
 
 		$validator = Validator::make( $request->all(), $validation_rules );
@@ -34,29 +36,16 @@ class ApiMessageController extends Controller
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
 		}
 
-		$meta_data = $request->input( 'meta_data', [] );
-
-		if ( $meta_data ) {
-			$meta_data = json_decode( $meta_data, true );
-		}
-
-		$arg = [
+		$timestamp = Carbon::parse( $request->input( 'timestamp' ) );
+		$arg       = [
 			'passenger_id' => $request->input( 'passenger_id' ),
 			'user_id'      => $request->input( 'user_id' ),
 			'message'      => $request->input( 'message' ),
 			'sender_type'  => $request->input( 'sender_type' ),
-			'meta_data'    => $request->input( 'meta_data', [] ),
+			'timestamp'    => $timestamp->toDateTimeString(),
+			'guid'         => $request->input( 'guid' ),
 			'is_read'      => false
 		];
-
-		if ( ! empty( $meta_data['message']['_id'] ) ) {
-			$arg['guid'] = $meta_data['message']['_id'];
-		}
-
-		if ( ! empty( $meta_data['message']['createdAt'] ) ) {
-			$timestamp        = Carbon::parse( $meta_data['message']['createdAt'] );
-			$arg['timestamp'] = $timestamp->toDateTimeString();
-		}
 
 		$message = Message::create( $arg );
 
