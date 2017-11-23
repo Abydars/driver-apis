@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Message;
 use App\Notifications\NewMessage;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Validator;
@@ -33,14 +34,26 @@ class ApiMessageController extends Controller
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
 		}
 
-		$message = Message::create( [
-			                            'passenger_id' => $request->input( 'passenger_id' ),
-			                            'user_id'      => $request->input( 'user_id' ),
-			                            'message'      => $request->input( 'message' ),
-			                            'sender_type'  => $request->input( 'sender_type' ),
-			                            'meta_data'    => $request->input( 'meta_data', null ),
-			                            'is_read'      => false
-		                            ] );
+		$meta_data = $request->input( 'meta_data', [] );
+		$arg       = [
+			'passenger_id' => $request->input( 'passenger_id' ),
+			'user_id'      => $request->input( 'user_id' ),
+			'message'      => $request->input( 'message' ),
+			'sender_type'  => $request->input( 'sender_type' ),
+			'meta_data'    => $meta_data,
+			'is_read'      => false
+		];
+
+		if ( ! empty( $meta_data['message']['_id'] ) ) {
+			$arg['id'] = $meta_data['message']['_id'];
+		}
+
+		if ( ! empty( $meta_data['message']['createdAt'] ) ) {
+			$timestamp        = Carbon::parse( $meta_data['message']['createdAt'] );
+			$arg['timestamp'] = $timestamp->toDateTimeString();
+		}
+
+		$message = Message::create( $arg );
 
 		if ( $message->id > 0 ) {
 			$message = Message::with( [ 'user', 'passenger' ] )->find( $message->id );
