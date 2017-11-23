@@ -35,7 +35,12 @@ class ApiMessageController extends Controller
 		}
 
 		$meta_data = $request->input( 'meta_data', [] );
-		$arg       = [
+
+		if ( $meta_data ) {
+			$meta_data = json_decode( $meta_data, false );
+		}
+
+		$arg = [
 			'passenger_id' => $request->input( 'passenger_id' ),
 			'user_id'      => $request->input( 'user_id' ),
 			'message'      => $request->input( 'message' ),
