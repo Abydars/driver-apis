@@ -98,6 +98,20 @@ class ApiUserController extends Controller
 	{
 		$user = $this->get_user( $id );
 
+		$validation_rules = [
+			'name'  => 'required',
+			'phone' => 'required',
+			'email' => 'email|unique:users,email,' . $id,
+			'photo' => 'image:png,jpeg'
+		];
+
+		$validator = Validator::make( $request->all(), $validation_rules );
+		$messages  = $validator->messages()->all();
+
+		if ( $validator->fails() ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
+		}
+
 		if ( $request->has( 'old_password' ) ) {
 			$old_password = $request->get( 'old_password' );
 
@@ -110,7 +124,15 @@ class ApiUserController extends Controller
 			}
 		}
 
-		$data = $request->all();//only( [ 'username', 'phone', 'password' ] );
+		$data = $request->only( [
+			                        'username',
+			                        'phone',
+			                        'email',
+			                        'company',
+			                        'address',
+			                        'abn',
+			                        'car_number'
+		                        ] );
 
 		$user->fill( $data );
 

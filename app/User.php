@@ -28,7 +28,13 @@ class User extends Authenticatable
 		'udid',
 		'meta_data',
 		'status',
-		'phone'
+		'phone',
+		'company',
+		'address',
+		'abn',
+		'car_number',
+		'car_image',
+		'photo'
 	];
 
 	/**
