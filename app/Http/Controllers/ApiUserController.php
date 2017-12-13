@@ -99,10 +99,10 @@ class ApiUserController extends Controller
 		$user = $this->get_user( $id );
 
 		$validation_rules = [
-			'name'  => 'required',
-			'phone' => 'required',
-			'email' => 'email|unique:users,email,' . $id,
-			'photo' => 'image:png,jpeg'
+			'username' => 'required',
+			'phone'    => 'required',
+			'email'    => 'email|unique:users,email,' . $id,
+			'photo'    => 'image:png,jpeg'
 		];
 
 		$validator = Validator::make( $request->all(), $validation_rules );
