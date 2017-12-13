@@ -102,7 +102,7 @@ class ApiUserController extends Controller
 			'username' => 'required',
 			'phone'    => 'required',
 			'email'    => 'email|unique:users,email,' . $id,
-			'photo'    => 'image:png,jpeg'
+			'photo'    => 'nullable|mimes:jpeg,png'
 		];
 
 		$validator = Validator::make( $request->all(), $validation_rules );
