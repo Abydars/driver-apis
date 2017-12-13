@@ -91,11 +91,24 @@ class ApiPassengerController extends Controller
 	 */
 	public function update( $id, Request $request )
 	{
+		$validation_rules = [
+			'name'  => 'required',
+			'phone' => 'required',
+			'email' => 'email|unique:passengers,email,' . $id
+		];
+
+		$validator = Validator::make( $request->all(), $validation_rules );
+		$messages  = $validator->messages()->all();
+
+		if ( $validator->fails() ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
+		}
+
 		$passenger = Passenger::find( $id );
 		if ( $passenger ) {
-			$passenger->fill( $request->fill( [
-				                                  'comments' => $request->input( 'comments' )
-			                                  ] ) );
+
+			$passenger->fill( $request->only( [ 'name', 'phone', 'email', 'company', 'address', 'user_comments' ] ) );
+
 			if ( $passenger->save() ) {
 				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.passenger.update_success' ) );
 			}
