@@ -17,8 +17,11 @@ class Passenger extends Model
 	protected $fillable = [
 		'name',
 		'phone',
+		'email',
+		'company',
+		'address',
 		'user_id',
-		'comments',
+		'user_comments',
 		'udid',
 		'meta_data',
 		'registration_date'
