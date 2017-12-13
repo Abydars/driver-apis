@@ -17,7 +17,6 @@ class AddDetailsColumnsToPassengers extends Migration
 			$table->string( 'email' )->nullable();
 			$table->string( 'company' )->nullable();
 			$table->string( 'address' )->nullable();
-			$table->string( 'user_comments' )->nullable();
 		} );
 	}
 
