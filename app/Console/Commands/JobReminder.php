@@ -15,7 +15,7 @@ class JobReminder extends Command
 	 *
 	 * @var string
 	 */
-	protected $signature = 'job:remind {job}';
+	protected $signature = 'job:remind {now?}';
 
 	/**
 	 * The console command description.
@@ -41,34 +41,51 @@ class JobReminder extends Command
 	 */
 	public function handle()
 	{
-		$timezone      = Config::get( 'constants.timezone' );
-		$job           = Job::find( $this->argument( 'job' ) );
-		$job_timestamp = Carbon::parse( $job->timestamp, $timezone );
-		//$last_notified = Carbon::parse( $job->last_notified, $timezone );
-		//$now           = Carbon::now( $timezone );
-		$now           = Carbon::parse( '2017-12-15 06:55:19', $timezone );
-		$alarms        = [ 12, 6, 3 ];
+		$now_arg = $this->argument( 'now' );
 
-		$difference = $job_timestamp->diff( $now );
-
-		if ( $difference->invert == 1 ) {
-			$last_notified_diff = $job_timestamp->diff( $now );
-
-			if ( $difference->days == 0 ) {
-				$alarm = array_search( $last_notified_diff->h, $alarms );
-
-				if ( $alarm != false && isset( $alarms[ $alarm ] ) ) {
-					$alarm = $alarms[ $alarm ];
-					//var_dump( $last_notified_diff->h, $alarm );
-
-					if ( $alarm == $last_notified_diff->h ) {
-						$job->last_notified = Carbon::now()->toDateTimeString();
-						$job->save();
-
-						$job->user->notify( new JobReminderNotification( $job ) );
-					}
-				}
-			}
+		if ( ! $now_arg ) {
+			$now_arg = Carbon::now()->toDateTimeString();
 		}
+
+		Job::where( 'timestamp', '>=', $now_arg )
+		   ->each( function ( $job ) use ( &$now_arg ) {
+
+			   $timezone      = Config::get( 'constants.timezone' );
+			   $job_timestamp = Carbon::parse( $job->timestamp, $timezone );
+			   $now           = Carbon::now( $timezone );
+			   $alarms        = [ 12, 6, 3 ];
+
+			   if ( $now_arg ) {
+				   $now = Carbon::parse( $now_arg, $timezone );
+			   }
+
+			   $difference = $job_timestamp->diff( $now );
+
+			   if ( $difference->invert == 1 ) {
+
+				   if ( $difference->days == 0 ) {
+					   $difference->h += 1;
+					   $alarm         = array_search( $difference->h, $alarms );
+					   //var_dump( $difference->h );
+					   if ( $alarm != false && isset( $alarms[ $alarm ] ) ) {
+						   $alarm = $alarms[ $alarm ];
+
+						   if ( $alarm == $difference->h ) {
+							   $last_notified_diff = Carbon::parse( $job->last_notified, $timezone )->diff( $now );
+							   //var_dump( $last_notified_diff );
+
+							   if ( $last_notified_diff->h > 0 ) {
+								   $job->last_notified = $now->toDateTimeString();
+								   $job->save();
+
+								   $job->user->notify( new JobReminderNotification( $job ) );
+							   } else {
+								   echo 'already sent';
+							   }
+						   }
+					   }
+				   }
+			   }
+		   } );
 	}
 }
