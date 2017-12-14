@@ -10,6 +10,7 @@ return [
 			"single_thread"        => "message"
 		]
 	],
+	"timezone"       => "Australia/Melbourne",
 	"HTTP_CODES"     => [
 		"UNAUTHORIZED"   => 401,
 		"NOT_FOUND"      => 404,
