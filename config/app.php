@@ -175,7 +175,7 @@ return [
 		 */
 		App\Providers\AppServiceProvider::class,
 		App\Providers\AuthServiceProvider::class,
-		// App\Providers\BroadcastServiceProvider::class,
+		App\Providers\BroadcastServiceProvider::class,
 		App\Providers\EventServiceProvider::class,
 		App\Providers\RouteServiceProvider::class,
 
@@ -183,7 +183,7 @@ return [
 		 * Dependency Providers
 		 */
 		NotificationChannels\OneSignal\OneSignalServiceProvider::class,
-		\Vinkla\Pusher\PusherServiceProvider::class
+		Vinkla\Pusher\PusherServiceProvider::class
 	],
 
 	/*

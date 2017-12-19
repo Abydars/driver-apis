@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewEntryEvent;
 use App\Job;
 use App\Notifications\BidAccepted;
 use App\Notifications\BidReply;
@@ -53,6 +54,9 @@ class ApiJobController extends Controller
 
 		if ( $job->id > 0 ) {
 			$job = Job::with( 'user' )->find( $job->id );
+
+			event( new NewEntryEvent( 'new_job', $job, $user->id, $request->input( 'passenger_id' ) ) );
+
 			try {
 				$job->user->notify( new NewJobPosted( $job ) );
 			} catch ( \Exception $e ) {

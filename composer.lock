@@ -3693,12 +3693,12 @@
             "version": "2.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vinkla/laravel-pusher.git",
+                "url": "https://github.com/pusher/pusher-http-laravel.git",
                 "reference": "6c431cad0a0b44599aeddf77bceda8035de0607b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vinkla/laravel-pusher/zipball/6c431cad0a0b44599aeddf77bceda8035de0607b",
+                "url": "https://api.github.com/repos/pusher/pusher-http-laravel/zipball/6c431cad0a0b44599aeddf77bceda8035de0607b",
                 "reference": "6c431cad0a0b44599aeddf77bceda8035de0607b",
                 "shasum": ""
             },
@@ -3749,6 +3749,7 @@
                 "rest",
                 "trigger"
             ],
+            "abandoned": "pusher/pusher-http-laravel",
             "time": "2017-01-01T13:46:34+00:00"
         },
         {

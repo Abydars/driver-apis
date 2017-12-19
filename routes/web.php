@@ -16,7 +16,7 @@ use App\Events\TestEvent;
 Auth::routes();
 
 Route::get( '/ping', function () {
-	broadcast(new TestEvent("Hello!"));
+	event( new \App\Events\NewEntryEvent( 'job', \App\Job::all(), 2 ) );
 
 	return view( 'welcome' );
 } );

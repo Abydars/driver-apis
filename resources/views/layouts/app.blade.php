@@ -66,8 +66,9 @@ $active_navigation = Dashboard::active_navigation();
     var pusher = new Pusher("{{env("PUSHER_APP_KEY")}}", {
         cluster: 'eu'
     });
-    var channel = pusher.subscribe('test-channel');
-    channel.bind('test-event', function (data) {
+
+    var channel = pusher.subscribe('user.1');
+    channel.bind('new-entry-event', function (data) {
         alert();
     });
 </script>
