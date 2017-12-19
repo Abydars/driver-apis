@@ -55,13 +55,13 @@ class ApiJobController extends Controller
 		if ( $job->id > 0 ) {
 			$job = Job::with( 'user' )->find( $job->id );
 
-			event( new NewEntryEvent( 'new_job', $job, $user->id, $request->input( 'passenger_id' ) ) );
-
 			try {
 				$job->user->notify( new NewJobPosted( $job ) );
 			} catch ( \Exception $e ) {
 
 			}
+
+			event( new NewEntryEvent( 'new_job', $job, $job->user->id, false ) );
 
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $job );
 		}
@@ -98,7 +98,7 @@ class ApiJobController extends Controller
 			$job->status = 'done';
 
 			if ( $job->save() ) {
-				event( new NewEntryEvent( 'job_updated', $job, $job->user->id, $job->passenger->id ) );
+				event( new NewEntryEvent( 'job_updated', false, $job->passenger->id ) );
 
 				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.update_success' ) );
 			}
@@ -138,7 +138,7 @@ class ApiJobController extends Controller
 					} catch ( \Exception $e ) {
 
 					}
-					event( new NewEntryEvent( 'job_updated', $job, $job->user->id, $job->passenger->id ) );
+					event( new NewEntryEvent( 'job_updated', $job, false, $job->passenger->id ) );
 
 					return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.bid_success' ) );
 				}
@@ -183,7 +183,7 @@ class ApiJobController extends Controller
 				} catch ( \Exception $e ) {
 
 				}
-				event( new NewEntryEvent( 'job_updated', $job, $job->user->id, $job->passenger->id ) );
+				event( new NewEntryEvent( 'job_updated', $job, $job->user->id, false ) );
 
 				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.bid_accepted' ) );
 			}

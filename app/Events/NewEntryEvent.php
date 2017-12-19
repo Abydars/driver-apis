@@ -27,7 +27,7 @@ class NewEntryEvent implements ShouldBroadcast
 	 * @param $user_id
 	 * @param $passenger_id
 	 */
-	public function __construct( $type, $data, $user_id, $passenger_id = false )
+	public function __construct( $type, $data, $user_id = false, $passenger_id = false )
 	{
 		$this->type         = $type;
 		$this->data         = $data;
@@ -42,10 +42,14 @@ class NewEntryEvent implements ShouldBroadcast
 	 */
 	public function broadcastOn()
 	{
-		$on = [ 'user.' . $this->user_id ];
+		$on = [];
+
+		if ( $this->user_id ) {
+			$on = [ 'user.' . $this->user_id ];
+		}
 
 		if ( $this->passenger_id ) {
-			$on[] = 'passenger.' . $this->passenger_id;
+			$on = [ 'passenger.' . $this->passenger_id ];
 		}
 
 		return $on;
