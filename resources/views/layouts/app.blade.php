@@ -68,7 +68,7 @@ $active_navigation = Dashboard::active_navigation();
     });
 
     var channel = pusher.subscribe('user.1');
-    channel.bind('new-entry-event', function (data) {
+    channel.bind('update-awaiting-jobs', function (data) {
         alert();
     });
 </script>
