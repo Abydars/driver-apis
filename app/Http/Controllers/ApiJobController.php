@@ -98,6 +98,8 @@ class ApiJobController extends Controller
 			$job->status = 'done';
 
 			if ( $job->save() ) {
+				event( new NewEntryEvent( 'job_updated', $job, $job->user->id, $job->passenger->id ) );
+
 				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.update_success' ) );
 			}
 		}
