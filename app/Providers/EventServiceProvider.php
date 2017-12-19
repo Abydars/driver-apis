@@ -21,6 +21,24 @@ class EventServiceProvider extends ServiceProvider
 		],
 		'App\Events\NewEntryEvent' => [
 			'App\Listeners\NewEntryEventListener'
+		],
+		'App\Events\UpdateAwaitingJobs' => [
+			'App\Listeners\UpdateAwaitingJobsEventListener'
+		],
+		'App\Events\UpdatePendingJobs' => [
+			'App\Listeners\UpdatePendingJobsEventListener'
+		],
+		'App\Events\UpdateCompletedJobs' => [
+			'App\Listeners\UpdateCompletedJobsEventListener'
+		],
+		'App\Events\UpdatePassengerJobs' => [
+			'App\Listeners\UpdatePassengerJobsEventListener'
+		],
+		'App\Events\SinglePassengerJob' => [
+			'App\Listeners\SinglePassengerJobEventListener'
+		],
+		'App\Events\SingleJob' => [
+			'App\Listeners\SingleJobEventListener'
 		]
 	];
 

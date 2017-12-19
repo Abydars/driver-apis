@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewEntryEvent;
+use App\Events\SingleJob;
+use App\Events\SinglePassengerJob;
+use App\Events\UpdateAwaitingJobs;
+use App\Events\UpdateCompletedJobs;
+use App\Events\UpdatePassengerJobs;
+use App\Events\UpdatePendingJobs;
 use App\Job;
 use App\Notifications\BidAccepted;
 use App\Notifications\BidReply;
@@ -61,7 +67,15 @@ class ApiJobController extends Controller
 
 			}
 
-			event( new NewEntryEvent( 'new_job', $job, $job->user->id, false ) );
+			if ( $is_bid ) {
+				event( new UpdateAwaitingJobs( $job->user_id ) );
+			} else {
+				event( new UpdatePendingJobs( $job->user_id ) );
+			}
+
+			event( new UpdatePassengerJobs( $job->passenger_id ) );
+			event( new SinglePassengerJob( $job ) );
+			event( new SingleJob( $job ) );
 
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $job );
 		}
@@ -98,7 +112,9 @@ class ApiJobController extends Controller
 			$job->status = 'done';
 
 			if ( $job->save() ) {
-				event( new NewEntryEvent( 'job_updated', false, $job->passenger->id ) );
+				event( new UpdateCompletedJobs( $job->user_id ) );
+				event( new SinglePassengerJob( $job ) );
+				event( new SingleJob( $job ) );
 
 				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.update_success' ) );
 			}
@@ -138,7 +154,10 @@ class ApiJobController extends Controller
 					} catch ( \Exception $e ) {
 
 					}
-					event( new NewEntryEvent( 'job_updated', $job, false, $job->passenger->id ) );
+
+					event( new UpdatePassengerJobs( $job->passenger_id ) );
+					event( new SinglePassengerJob( $job ) );
+					event( new SingleJob( $job ) );
 
 					return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.bid_success' ) );
 				}
@@ -183,7 +202,12 @@ class ApiJobController extends Controller
 				} catch ( \Exception $e ) {
 
 				}
-				event( new NewEntryEvent( 'job_updated', $job, $job->user->id, false ) );
+
+				event( new UpdateAwaitingJobs( $job->user_id ) );
+				event( new UpdatePendingJobs( $job->user_id ) );
+				event( new UpdatePassengerJobs( $job->passenger_id ) );
+				event( new SinglePassengerJob( $job ) );
+				event( new SingleJob( $job ) );
 
 				return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.job.bid_accepted' ) );
 			}
