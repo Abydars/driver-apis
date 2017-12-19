@@ -14,7 +14,7 @@ class AddLastNotifiedToJobsTable extends Migration
      */
     public function up()
     {
-	    Schema::table( 'jobs', function ( Blueprint $table ) {
+	    Schema::table( 'user_jobs', function ( Blueprint $table ) {
 		    $table->dateTime( 'last_notified' )->nullable()->default( DB::raw( 'CURRENT_TIMESTAMP' ) );
 	    });
     }

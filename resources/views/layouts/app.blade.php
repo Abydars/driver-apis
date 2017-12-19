@@ -56,9 +56,22 @@ $active_navigation = Dashboard::active_navigation();
 <!-- =============== SCRIPTS ===============-->
 <script src="{{ asset('/js/vendor.js') }}"></script>
 <script src="{{ asset('/js/app.js') }}"></script>
-<script>
 
+<script src="//js.pusher.com/3.0/pusher.min.js"></script>
+<script>
+    Pusher.log = function (msg) {
+        console.log(msg);
+    };
+
+    var pusher = new Pusher("{{env("PUSHER_APP_KEY")}}", {
+        cluster: 'eu'
+    });
+    var channel = pusher.subscribe('test-channel');
+    channel.bind('test-event', function (data) {
+        alert();
+    });
 </script>
+
 @stack('scripts')
 </body>
 </html>

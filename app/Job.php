@@ -37,7 +37,7 @@ class Job extends Model
 		'timestamp_obj'
 	];
 
-	protected $table = 'jobs';
+	protected $table = 'user_jobs';
 	public $timestamps = false;
 
 	/**

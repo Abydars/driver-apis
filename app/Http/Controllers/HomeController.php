@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Events\TestEvent;
 use App\Organization;
 use App\OrganizationLocation;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -34,7 +36,7 @@ class HomeController extends Controller
 		$users = User::all()->count();
 
 		return view( 'home', [
-			'users'            => $users
+			'users' => $users
 		] );
 	}
 }

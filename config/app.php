@@ -183,7 +183,7 @@ return [
 		 * Dependency Providers
 		 */
 		NotificationChannels\OneSignal\OneSignalServiceProvider::class,
-
+		\Vinkla\Pusher\PusherServiceProvider::class
 	],
 
 	/*

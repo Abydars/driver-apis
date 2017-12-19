@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJobsTable extends Migration
+class CreateUserJobsTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -14,7 +14,7 @@ class CreateJobsTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create( 'jobs', function ( Blueprint $table ) {
+		Schema::create( 'user_jobs', function ( Blueprint $table ) {
 			$table->increments( 'id' );
 			$table->string( 'pickup' );
 			$table->string( 'drop' );
@@ -41,6 +41,6 @@ class CreateJobsTable extends Migration
 	public function down()
 	{
 		Schema::disableForeignKeyConstraints();
-		Schema::dropIfExists( 'jobs' );
+		Schema::dropIfExists( 'user_jobs' );
 	}
 }

@@ -11,11 +11,19 @@
 |
 */
 
+use App\Events\TestEvent;
+
 Auth::routes();
 
+Route::get( '/ping', function () {
+	broadcast(new TestEvent("Hello!"));
+
+	return view( 'welcome' );
+} );
+
 Route::get( '/welcome', function () {
-	return view('welcome');
-});
+	return view( 'welcome' );
+} );
 
 Route::get( '/', function () {
 	if ( \Illuminate\Support\Facades\Auth::check() ) {
