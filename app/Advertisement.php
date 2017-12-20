@@ -25,6 +25,17 @@ class Advertisement extends Model
 	 */
 	protected $hidden = [];
 
+	protected $appends = [
+		'image_url'
+	];
+
 	protected $table = 'advertisements';
 	public $timestamps = false;
+
+	public function getImageUrlAttribute()
+	{
+		if ( $this->image ) {
+			return url( $this->image );
+		}
+	}
 }
