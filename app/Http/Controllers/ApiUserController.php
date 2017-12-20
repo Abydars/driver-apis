@@ -99,10 +99,11 @@ class ApiUserController extends Controller
 		$user = $this->get_user( $id );
 
 		$validation_rules = [
-			'username' => 'required',
-			'phone'    => 'required',
-			'email'    => 'email|unique:users,email,' . $id,
-			'photo'    => 'nullable|mimes:jpeg,png'
+			'username'  => 'required',
+			'phone'     => 'required',
+			'email'     => 'email|unique:users,email,' . $id,
+			'photo'     => 'nullable|mimes:jpeg,bmp,png|max:1024',
+			'car_image' => 'nullable|mimes:jpeg,bmp,png|max:1024',
 		];
 
 		$validator = Validator::make( $request->all(), $validation_rules );
@@ -110,6 +111,28 @@ class ApiUserController extends Controller
 
 		if ( $validator->fails() ) {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
+		}
+
+		$path = 'app/public/photos/';
+
+		if ( $request->hasFile( 'photo' ) ) {
+			$file     = $request->file( 'photo' );
+			$filename = 'user-' . $user->id . '-photo.' . $file->clientExtension();
+			$f        = $file->move( storage_path( $path ), $filename );
+
+			if ( $f->isReadable() ) {
+				$user->photo = $path . $filename;
+			}
+		}
+
+		if ( $request->hasFile( 'car_image' ) ) {
+			$file     = $request->file( 'car_image' );
+			$filename = 'user-' . $user->id . '-car.' . $file->clientExtension();
+			$f        = $file->move( public_path( $path ), $filename );
+
+			if ( $f->isReadable() ) {
+				$user->car_image = "data:image/jpg;base64," . base64_encode( file_get_contents( $f->getRealPath() ) );
+			}
 		}
 
 		if ( $request->has( 'old_password' ) ) {
@@ -138,6 +161,51 @@ class ApiUserController extends Controller
 
 		if ( $request->has( 'password' ) ) {
 			$user->password = bcrypt( $request->get( 'password' ) );
+		}
+
+		if ( $user->save() ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), null, __( 'strings.user.update_success' ) );
+		} else {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, __( 'strings.user.update_failed' ) );
+		}
+	}
+
+	public function updateUserPhoto( $id, Request $request )
+	{
+		$user = $this->get_user( $id );
+
+		$validation_rules = [
+			'photo'     => 'nullable|mimes:jpeg,bmp,png|max:1024',
+			'car_image' => 'nullable|mimes:jpeg,bmp,png|max:1024',
+		];
+
+		$validator = Validator::make( $request->all(), $validation_rules );
+		$messages  = $validator->messages()->all();
+
+		if ( $validator->fails() ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
+		}
+
+		$path = 'app/public/photos/';
+
+		if ( $request->hasFile( 'photo' ) ) {
+			$file     = $request->file( 'photo' );
+			$filename = 'user-' . $user->id . '-photo.' . $file->clientExtension();
+			$f        = $file->move( storage_path( $path ), $filename );
+
+			if ( $f->isReadable() ) {
+				$user->photo = $path . $filename;
+			}
+		}
+
+		if ( $request->hasFile( 'car_image' ) ) {
+			$file     = $request->file( 'car_image' );
+			$filename = 'user-' . $user->id . '-car.' . $file->clientExtension();
+			$f        = $file->move( public_path( $path ), $filename );
+
+			if ( $f->isReadable() ) {
+				$user->car_image = "data:image/jpg;base64," . base64_encode( file_get_contents( $f->getRealPath() ) );
+			}
 		}
 
 		if ( $user->save() ) {

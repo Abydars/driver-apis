@@ -42,6 +42,7 @@ Route::group( [ 'prefix' => 'v1/u', 'middleware' => 'token' ], function () {
 		Route::get( '{user_id}', 'ApiUserController@getUserById' )->name( 'user.get' );
 		Route::delete( '{user_id}', 'ApiUserController@deleteUserById' )->name( 'user.delete' );
 		Route::post( '{user_id}/update', 'ApiUserController@updateUserById' )->name( 'user.update' );
+		Route::post( '{user_id}/update/photo', 'ApiUserController@updateUserPhoto' )->name( 'user.update.photo' );
 	} );
 
 	Route::post( '{user_id}/jobs/generate', 'ApiUserController@generate' )->name( 'user.generate' );
