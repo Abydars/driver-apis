@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class HomeController extends UserController
 {
 	/**
 	 * Create a new controller instance.

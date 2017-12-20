@@ -2,10 +2,6 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
-
 class ElementHelper
 {
 	public function navbar( $array )

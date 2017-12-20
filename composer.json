@@ -9,7 +9,7 @@
         "laravel/framework": "5.4.*",
         "yajra/laravel-datatables-oracle": "~6.0",
         "laravelcollective/html": "^5.2.0",
-        "unisharp/laravel-filemanager": "^1.6",
+        "unisharp/laravel-filemanager": "^1.8",
         "spatie/laravel-medialibrary": "^4.12",
         "kalnoy/nestedset": "^4.2",
         "pusher/pusher-php-server": "^2.6",

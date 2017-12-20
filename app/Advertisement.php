@@ -12,6 +12,7 @@ class Advertisement extends Model
 	 * @var array
 	 */
 	protected $fillable = [
+		'title',
 		'content',
 		'image',
 		'email'

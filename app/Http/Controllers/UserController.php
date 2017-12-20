@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Datatables;
+use Dashboard;
 
 class UserController extends Controller
 {
@@ -13,6 +14,13 @@ class UserController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
+	public function dashboard()
+	{
+		Dashboard::setTitle( 'Dashboard' );
+
+		return view( 'user.dashboard' );
+	}
+
 	public function index()
 	{
 		return view( 'user.index' );
@@ -23,7 +31,7 @@ class UserController extends Controller
 	 */
 	public function data()
 	{
-		return Datatables::of( User::all() )->make( true );
+		return Datatables::of( User::with( [ 'role' ] )->get() )->make( true );
 	}
 
 	/**

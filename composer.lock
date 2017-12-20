@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "77b49caa63187fffab206d8f857a4921",
+    "content-hash": "b17b06d52e34185b60c19380b7c0b33f",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -3614,20 +3614,21 @@
         },
         {
             "name": "unisharp/laravel-filemanager",
-            "version": "v1.8.1",
+            "version": "v1.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/UniSharp/laravel-filemanager.git",
-                "reference": "f5ec3b4e6398d196000aa320c44800e6d8b6fc00"
+                "reference": "40ff56023e932c01b20dde0619b5fa81f17df06d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UniSharp/laravel-filemanager/zipball/f5ec3b4e6398d196000aa320c44800e6d8b6fc00",
-                "reference": "f5ec3b4e6398d196000aa320c44800e6d8b6fc00",
+                "url": "https://api.github.com/repos/UniSharp/laravel-filemanager/zipball/40ff56023e932c01b20dde0619b5fa81f17df06d",
+                "reference": "40ff56023e932c01b20dde0619b5fa81f17df06d",
                 "shasum": ""
             },
             "require": {
                 "ext-exif": "*",
+                "ext-fileinfo": "*",
                 "illuminate/support": ">=4.2.0",
                 "intervention/image": "2.*",
                 "php": ">=5.4.0"
@@ -3648,12 +3649,9 @@
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Unisharp\\Laravelfilemanager\\LaravelFilemanagerServiceProvider",
-                        "Intervention\\Image\\ImageServiceProvider"
+                        "Unisharp\\Laravelfilemanager\\LaravelFilemanagerServiceProvider"
                     ],
-                    "aliases": {
-                        "Image": "Intervention\\Image\\Facades\\Image"
-                    }
+                    "aliases": []
                 }
             },
             "autoload": {
@@ -3686,7 +3684,7 @@
                 "tinymce",
                 "upload"
             ],
-            "time": "2017-07-13T06:55:50+00:00"
+            "time": "2017-12-05T17:21:15+00:00"
         },
         {
             "name": "vinkla/pusher",

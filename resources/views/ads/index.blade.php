@@ -14,13 +14,9 @@
                                style="width: 100%;">
                             <thead>
                             <tr>
-                                <th>User ID#</th>
-                                <th>Username</th>
-                                <th>Role</th>
-                                <th>Phone</th>
-                                <th>Company</th>
-                                <th>Status</th>
-                                <th>Registration Date</th>
+                                <th>Ad ID#</th>
+                                <th>Title</th>
+                                <th>Email</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -43,7 +39,7 @@
         var $users_table = $('#users-table').DataTable({
             responsive: true,
             errMode: 'throw',
-            ajax: '{{ route("user.data") }}',
+            ajax: '{{ route("ads.data") }}',
             fnInitComplete: function (settings) {
 
             },
@@ -55,28 +51,12 @@
                     }
                 },
                 {
-                    name: 'username',
-                    data: 'username'
+                    name: 'title',
+                    data: 'title'
                 },
                 {
-                    name: 'role.name',
-                    data: 'role.name'
-                },
-                {
-                    name: 'phone',
-                    data: 'phone'
-                },
-                {
-                    name: 'company',
-                    data: 'company'
-                },
-                {
-                    name: 'status',
-                    data: 'status'
-                },
-                {
-                    name: 'registration_date',
-                    data: 'registration_date'
+                    name: 'email',
+                    data: 'email'
                 },
                 {
                     bSortable: false,
@@ -116,12 +96,12 @@
 
             if ($action === 'delete') {
                 $delete_modal.on('show.bs.modal', function () {
-                    $delete_modal.find('#delete-modal-message').html('Are you sure to delete this user?');
+                    $delete_modal.find('#delete-modal-message').html('Are you sure to delete this ad?');
                     $delete_modal_ids.val(data['id']);
                 });
                 $delete_modal.modal('show');
             } else if ($action === 'detail') {
-                window.location.href = window.custom.url + '/user/' + data['id'] + '/edit';
+                window.location.href = window.custom.url + '/ads/' + data['id'] + '/edit';
             }
         });
 
@@ -132,7 +112,7 @@
 
             $.ajax({
                 type: 'DELETE',
-                url: '{{ url("admin/user") }}/' + $delete_modal_ids.val(),
+                url: '{{ url("admin/ads") }}/' + $delete_modal_ids.val(),
                 success: function (data) {
                     $.notify.closeAll();
                     $.notify(data);

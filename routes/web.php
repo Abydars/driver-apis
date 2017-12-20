@@ -41,7 +41,18 @@ Route::get( '/admin/login', function () {
 	return redirect( 'login' );
 } );
 
-Route::group( [ 'prefix' => 'admin', 'middleware' => 'auth' ], function () {
-	Route::get( '/', 'HomeController@index' );
-	Route::get( '/dashboard', 'HomeController@index' )->name( 'dashboard' );
+Route::group( [ 'prefix' => 'admin', 'middleware' => [ 'auth', 'admin' ] ], function () {
+	Route::get( '/', 'AdminController@index' );
+	Route::get( '/dashboard', 'AdminController@index' )->name( 'admin.dashboard' );
+	Route::get( '/users', 'UserController@index' )->name( 'admin.users' );
+	Route::get( '/users/data', 'UserController@data' )->name( 'user.data' );
+	Route::get( '/ads', 'AdsController@index' )->name( 'admin.ads' );
+	Route::get( '/ads/data', 'AdsController@data' )->name( 'ads.data' );
+	Route::get( '/ads/add', 'AdsController@add' )->name( 'ads.add' );
+	Route::post( '/ads/store', 'AdsController@store' )->name( 'ads.store' );
+} );
+
+Route::group( [ 'prefix' => 'user', 'middleware' => 'auth' ], function () {
+	Route::get( '/', 'UserController@dashboard' );
+	Route::get( '/dashboard', 'UserController@dashboard' )->name( 'user.dashboard' );
 } );
