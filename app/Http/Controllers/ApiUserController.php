@@ -175,8 +175,8 @@ class ApiUserController extends Controller
 		$user = $this->get_user( $id );
 
 		$validation_rules = [
-			'photo'     => 'nullable|mimes:jpeg,bmp,png|max:1024',
-			'car_image' => 'nullable|mimes:jpeg,bmp,png|max:1024',
+			'photo'     => 'required_without:car_image|mimes:jpeg,bmp,png|max:1024',
+			'car_image' => 'required_without:photo|mimes:jpeg,bmp,png|max:1024',
 		];
 
 		$validator = Validator::make( $request->all(), $validation_rules );
