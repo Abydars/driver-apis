@@ -186,7 +186,8 @@ class ApiUserController extends Controller
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, $messages[0] );
 		}
 
-		$path = 'app/public/photos/';
+		$path         = 'app/public/photos/';
+		$symlink_path = 'storage/photos/';
 
 		if ( $request->hasFile( 'photo' ) ) {
 			$file     = $request->file( 'photo' );
@@ -194,7 +195,7 @@ class ApiUserController extends Controller
 			$f        = $file->move( storage_path( $path ), $filename );
 
 			if ( $f->isReadable() ) {
-				$user->photo = $path . $filename;
+				$user->photo = $symlink_path . $filename;
 			}
 		}
 
@@ -204,7 +205,7 @@ class ApiUserController extends Controller
 			$f        = $file->move( public_path( $path ), $filename );
 
 			if ( $f->isReadable() ) {
-				$user->car_image = "data:image/jpg;base64," . base64_encode( file_get_contents( $f->getRealPath() ) );
+				$user->car_image = $symlink_path . $filename;
 			}
 		}
 

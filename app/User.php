@@ -49,8 +49,8 @@ class User extends Authenticatable
 
 	protected $appends = [
 		'registration_date_obj',
-		'photo_base64',
-		'car_image_base64'
+		'photo_url',
+		'car_image_url'
 	];
 
 	protected $table = 'users';
@@ -72,17 +72,17 @@ class User extends Authenticatable
 		return Carbon::parse( $this->registration_date );
 	}
 
-	public function getPhotoBase64Attribute()
+	public function getPhotoUrlAttribute()
 	{
 		if ( $this->photo ) {
-			return "data:image/jpg;base64," . base64_encode( file_get_contents( storage_path( $this->photo ) ) );
+			return url( $this->photo );
 		}
 	}
 
-	public function getCarImageBase64Attribute()
+	public function getCarImageUrlAttribute()
 	{
 		if ( $this->car_image ) {
-			return "data:image/jpg;base64," . base64_encode( file_get_contents( storage_path( $this->car_image ) ) );
+			return url( $this->car_image );
 		}
 	}
 
