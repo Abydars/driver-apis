@@ -76,6 +76,11 @@ Route::group( [ 'prefix' => 'v1/u', 'middleware' => 'token' ], function () {
 		Route::post( '{job_id}/bid_reply', 'ApiJobController@bid_reply' )->name( 'job.bid_reply' );
 	} );
 
+	Route::group( [ 'prefix' => 'ads' ], function () {
+		Route::get( 'all', 'ApiAdsController@data' )->name( 'ad.data' );
+		Route::post( '{advertisement_id}/submit', 'ApiAdsController@submit' )->name( 'ad.submit' );
+	} );
+
 } );
 
 /*
