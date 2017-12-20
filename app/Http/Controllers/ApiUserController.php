@@ -202,7 +202,7 @@ class ApiUserController extends Controller
 		if ( $request->hasFile( 'car_image' ) ) {
 			$file     = $request->file( 'car_image' );
 			$filename = 'user-' . $user->id . '-car.' . $file->clientExtension();
-			$f        = $file->move( public_path( $path ), $filename );
+			$f        = $file->move( storage_path( $path ), $filename );
 
 			if ( $f->isReadable() ) {
 				$user->car_image = $symlink_path . $filename;
