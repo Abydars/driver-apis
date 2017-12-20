@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('top')
-
+    <a href="{{ route('ads.add') }}" class="btn btn-primary">Add New</a>
 @endsection
 
 @section('content')
