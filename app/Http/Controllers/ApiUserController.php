@@ -191,7 +191,7 @@ class ApiUserController extends Controller
 
 		if ( $request->hasFile( 'photo' ) ) {
 			$file     = $request->file( 'photo' );
-			$filename = 'user-' . $user->id . '-photo.' . $file->clientExtension();
+			$filename = 'user-' . $user->id . '-photo' . rand(0,99999) . '.' . $file->clientExtension();
 			$f        = $file->move( storage_path( $path ), $filename );
 
 			if ( $f->isReadable() ) {
@@ -201,7 +201,7 @@ class ApiUserController extends Controller
 
 		if ( $request->hasFile( 'car_image' ) ) {
 			$file     = $request->file( 'car_image' );
-			$filename = 'user-' . $user->id . '-car.' . $file->clientExtension();
+			$filename = 'user-' . $user->id . '-car-' . rand(0,99999) . '.' . $file->clientExtension();
 			$f        = $file->move( storage_path( $path ), $filename );
 
 			if ( $f->isReadable() ) {
