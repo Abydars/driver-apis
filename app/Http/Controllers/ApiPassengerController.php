@@ -171,7 +171,7 @@ class ApiPassengerController extends Controller
 	 */
 	public function getPublicPassenger( $id )
 	{
-		$passenger = Passenger::find( $id );
+		$passenger = Passenger::with( [ 'user' ] )->find( $id );
 
 		if ( $passenger ) {
 			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.SUCCESS' ), $passenger );
