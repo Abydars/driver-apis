@@ -37,7 +37,8 @@ class Passenger extends Model
 	];
 
 	protected $appends = [
-		'registration_date_obj'
+		'registration_date_obj',
+		'rides_completed'
 	];
 
 	protected $table = 'passengers';
@@ -63,6 +64,11 @@ class Passenger extends Model
 		}
 
 		return [];
+	}
+
+	public function getRidesCompletedAttribute()
+	{
+		return Job::where( 'passenger_id', $this->id )->where( 'status', 'done' )->count();
 	}
 
 	/**
