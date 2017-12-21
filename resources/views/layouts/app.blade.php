@@ -24,8 +24,6 @@ $active_navigation = Dashboard::active_navigation();
 		<?php echo json_encode( [
 			                        'csrfToken'      => csrf_token(),
 			                        'url'            => url( 'admin' ),
-			                        'islamic_months' => Config::get( 'constants.hijri.months' ),
-			                        'english_months' => Config::get( 'constants.english.months' )
 		                        ] ); ?>
     </script>
 </head>
