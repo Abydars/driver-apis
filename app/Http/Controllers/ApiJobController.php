@@ -115,6 +115,7 @@ class ApiJobController extends Controller
 				event( new UpdateCompletedJobs( $job->user_id ) );
 				event( new UpdateAwaitingJobs( $job->user_id ) );
 				event( new UpdatePendingJobs( $job->user_id ) );
+				event( new UpdatePassengerJobs( $job->passenger_id ) );
 				event( new SinglePassengerJob( $job ) );
 				event( new SingleJob( $job ) );
 
@@ -157,6 +158,8 @@ class ApiJobController extends Controller
 
 					}
 
+					event( new UpdateAwaitingJobs( $job->user_id ) );
+					event( new UpdatePendingJobs( $job->user_id ) );
 					event( new UpdatePassengerJobs( $job->passenger_id ) );
 					event( new SinglePassengerJob( $job ) );
 					event( new SingleJob( $job ) );

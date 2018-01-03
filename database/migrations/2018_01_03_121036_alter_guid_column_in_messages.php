@@ -18,7 +18,7 @@ class AlterGuidColumnInMessages extends Migration
 				$table->dropColumn( 'guid' );
 			} );
 		} catch (Exception $e) {
-			
+
 		}
 
 		Schema::table( 'messages', function ( Blueprint $table ) {
