@@ -113,6 +113,8 @@ class ApiJobController extends Controller
 
 			if ( $job->save() ) {
 				event( new UpdateCompletedJobs( $job->user_id ) );
+				event( new UpdateAwaitingJobs( $job->user_id ) );
+				event( new UpdatePendingJobs( $job->user_id ) );
 				event( new SinglePassengerJob( $job ) );
 				event( new SingleJob( $job ) );
 
