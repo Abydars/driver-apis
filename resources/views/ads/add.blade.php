@@ -4,12 +4,24 @@
     <a href="{{ route('admin.ads') }}" class="btn btn-danger">Cancel</a>
 @endsection
 
+@push('styles')
+<style>
+    #preview {
+        max-width: 100%;
+        border: 1px solid;
+    }
+</style>
+@endpush
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body pb0">
-                    {!! Form::open(['id' => 'new-ad-form']) !!}
+                    @if($error)
+                        <div class="alert alert-danger">{{ $error }}</div>
+                    @endif
+                    {!! Form::open(['id' => 'new-ad-form', 'enctype' => 'multipart/form-data']) !!}
                     <fieldset>
                         <div class="form-group">
                             <label class="col-md-1 col-sm-2 control-label">Title:</label>
@@ -34,27 +46,15 @@
                             </div>
                         </div>
                     </fieldset>
-                    <div class="col-sm-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="panel-title">Ad Image</div>
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-12 mb">
-                                        <a id="ad_image_handler" data-input="image"
-                                           data-preview="ad_image_preview">
-                                            <div class="featured-image-box featured-image-box-200h">
-                                                <img class="featured-image" alt="Choose Ad Image"
-                                                     id="ad_image_preview">
-                                            </div>
-                                        </a>
-                                        <input type="hidden" name="image" id="image">
-                                    </div>
-                                </div>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-1 col-sm-2 control-label">Ad Image:</label>
+                            <div class="col-md-11 col-sm-10">
+                                {!! Form::file('image', null, ['class' => 'form-control']) !!}
+                                <img id="preview"/>
                             </div>
                         </div>
-                    </div>
+                    </fieldset>
                     <div class="form-group text-right">
                         <div class="col-md-12">
                             <input type="submit" class="btn btn-success"/>
@@ -74,14 +74,17 @@
     jQuery(function ($) {
         $main_form = $('#new-ad-form');
         $main_form.submit(function () {
+            return true;
+
+            var data = $main_form.serializeArray();
 
             $.notify(window.custom.messages.processing);
 
             $.ajax({
-                url: '{{ route('ads.store') }}',
+
                 type: 'POST',
                 dataType: 'JSON',
-                data: $main_form.serializeArray(),
+                data: data,
                 success: function (data) {
                     $.notify.closeAll();
                     $.notify(data);
@@ -94,8 +97,6 @@
 
             return false;
         });
-
-        $('#ad_image_handler').filemanager('image');
     });
 </script>
 @endpush

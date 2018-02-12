@@ -26,6 +26,7 @@ $active_navigation = Dashboard::active_navigation();
 			                        'url'            => url( 'admin' ),
 		                        ] ); ?>
     </script>
+    @stack('styles')
 </head>
 <body class="">
 <!-- layout-fixed layout-boxed aside-collapsed aside-collapsed-text aside-float aside-hover aside-show-scrollbar-->

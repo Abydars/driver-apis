@@ -52,7 +52,7 @@ Route::group( [ 'prefix' => 'admin', 'middleware' => [ 'auth', 'admin' ] ], func
 	Route::get( '/ads', 'AdsController@index' )->name( 'admin.ads' );
 	Route::get( '/ads/data', 'AdsController@data' )->name( 'ads.data' );
 	Route::get( '/ads/add', 'AdsController@add' )->name( 'ads.add' );
-	Route::post( '/ads/store', 'AdsController@store' )->name( 'ads.store' );
+	Route::post( '/ads/add', 'AdsController@add' );
 } );
 
 Route::group( [ 'prefix' => 'user', 'middleware' => 'auth' ], function () {
