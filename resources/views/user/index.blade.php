@@ -84,6 +84,7 @@
                     data: function (row) {
                         return '<div class="btn-group table-actions">' +
                             '<a data-id="' + row.id + '" data-action="delete" href="" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>' +
+                            '<a data-id="' + row.id + '" data-action="detail" href="" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a>' +
                             '</div>';
                     }
                 }

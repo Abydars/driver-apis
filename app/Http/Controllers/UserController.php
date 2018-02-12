@@ -65,19 +65,28 @@ class UserController extends Controller
 	 */
 	public function show( User $user )
 	{
-		//
+		return view( 'user.show', [
+			'user' => $user
+		] );
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  \App\User $user
+	 * @param $id
 	 *
 	 * @return \Illuminate\Http\Response
+	 *
 	 */
-	public function edit( User $user )
+	public function edit( $id )
 	{
-		//
+		$user = User::find( $id );
+
+		Dashboard::setTitle('Edit User');
+
+		return view( 'user.edit', [
+			'user' => $user
+		] );
 	}
 
 	/**
@@ -90,7 +99,16 @@ class UserController extends Controller
 	 */
 	public function update( Request $request, User $user )
 	{
-		//
+		$validation_rules = [
+			'pickup'       => 'required',
+			'drop'         => 'required',
+			'passenger_id' => 'required|exists:passengers,id',
+			'code'         => 'required|exists:users,code',
+			'timestamp'    => 'required|date_format:Y-m-d H:i'
+		];
+
+		$validator = Validator::make( $request->all(), $validation_rules );
+		$messages  = $validator->messages()->all();
 	}
 
 	/**
@@ -108,5 +126,25 @@ class UserController extends Controller
 				                         'message' => 'User delete successfully'
 			                         ] );
 		}
+	}
+
+	public function approve( $id )
+	{
+		$user = User::find( $id );
+
+		$user->status = 'active';
+		$user->save();
+
+		return response()->redirectToRoute( 'admin.user.edit', [ $user->id ] );
+	}
+
+	public function suspend( $id )
+	{
+		$user = User::find( $id );
+
+		$user->status = 'suspended';
+		$user->save();
+
+		return response()->redirectToRoute( 'admin.user.edit', [ $user->id ] );
 	}
 }

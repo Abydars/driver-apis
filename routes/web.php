@@ -45,6 +45,9 @@ Route::group( [ 'prefix' => 'admin', 'middleware' => [ 'auth', 'admin' ] ], func
 	Route::get( '/', 'AdminController@index' );
 	Route::get( '/dashboard', 'AdminController@index' )->name( 'admin.dashboard' );
 	Route::get( '/users', 'UserController@index' )->name( 'admin.users' );
+	Route::get( '/user/{user_id}/edit', 'UserController@edit' )->name( 'admin.user.edit' );
+	Route::get( '/user/{user_id}/approve', 'UserController@approve' )->name( 'admin.user.approve' );
+	Route::get( '/user/{user_id}/suspend', 'UserController@suspend' )->name( 'admin.user.suspend' );
 	Route::get( '/users/data', 'UserController@data' )->name( 'user.data' );
 	Route::get( '/ads', 'AdsController@index' )->name( 'admin.ads' );
 	Route::get( '/ads/data', 'AdsController@data' )->name( 'ads.data' );

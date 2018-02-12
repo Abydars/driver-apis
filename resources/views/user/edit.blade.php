@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('top')
-    <a href="{{ route('post.index') }}" class="btn btn-danger">Cancel</a>
+    <a href="{{ route('admin.user.approve', [$user->id]) }}"
+       class="btn btn-success">{{ $user->status == 'active' ? 'Approved' : 'Approve User' }}</a>
+    <a href="{{ route('admin.user.suspend', [$user->id]) }}"
+       class="btn btn-danger">{{ $user->status == 'suspended' ? 'Suspended' : 'Suspend User' }}</a>
+    <a href="{{ route('admin.users') }}" class="btn btn-primary">Back to Users</a>
 @endsection
 
 @section('content')
@@ -9,42 +13,66 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body pb0">
-                    {!! Form::open(['id' => 'post-update-form']) !!}
+                    {!! Form::open(['id' => 'user-update-form']) !!}
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-md-1 col-sm-2 control-label">Cite:</label>
+                            <label class="col-md-1 col-sm-2 control-label">Email Address:</label>
                             <div class="col-md-11 col-sm-10">
-                                {{ Form::select('cite', $cite, $post->cite, ['class' => 'form-control']) }}
+                                {{ Form::text('email', $user->email, ['class' => 'form-control', 'disabled' => 'disabled']) }}
                             </div>
                         </div>
                     </fieldset>
                     <fieldset>
                         <div class="form-group">
-                            <label class="col-md-1 col-sm-2 control-label">Content:</label>
+                            <label class="col-md-1 col-sm-2 control-label">Username:</label>
                             <div class="col-md-11 col-sm-10">
-                                {{ Form::textarea('content['.$default_language_id.']', $post->content, ['class' => 'form-control', 'rows' => 3]) }}
+                                {{ Form::text('username', $user->username, ['class' => 'form-control', 'disabled' => 'disabled']) }}
                             </div>
                         </div>
                     </fieldset>
                     <fieldset>
-                        <legend>Translations</legend>
-                        @if(count($languages) == 0)
-                            <h4>No other language found</h4>
-                        @endif
-                        @foreach($languages as $language)
-                            <fieldset>
-                                <div class="form-group">
-                                    <label class="col-md-1 col-sm-2 control-label">{{ $language->name }}:</label>
-                                    <div class="col-md-11 col-sm-10">
-                                        {{ Form::textarea('content['.$language->id.']', $localizations[$language->id], ['class' => 'form-control', 'rows' => 3]) }}
-                                    </div>
-                                </div>
-                            </fieldset>
-                        @endforeach
+                        <div class="form-group">
+                            <label class="col-md-1 col-sm-2 control-label">Phone:</label>
+                            <div class="col-md-11 col-sm-10">
+                                {{ Form::text('phone', $user->phone, ['class' => 'form-control']) }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-1 col-sm-2 control-label">Company:</label>
+                            <div class="col-md-11 col-sm-10">
+                                {{ Form::text('company', $user->company, ['class' => 'form-control']) }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-1 col-sm-2 control-label">Address:</label>
+                            <div class="col-md-11 col-sm-10">
+                                {{ Form::text('address', $user->address, ['class' => 'form-control']) }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-1 col-sm-2 control-label">ABN:</label>
+                            <div class="col-md-11 col-sm-10">
+                                {{ Form::text('abn', $user->abn, ['class' => 'form-control']) }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-1 col-sm-2 control-label">Car Number:</label>
+                            <div class="col-md-11 col-sm-10">
+                                {{ Form::text('car_number', $user->car_number, ['class' => 'form-control']) }}
+                            </div>
+                        </div>
                     </fieldset>
                     <div class="form-group text-right">
                         <div class="col-md-12">
-                            <input type="submit" class="btn btn-success"/>
+                            <input type="submit" class="btn btn-success" disabled="disabled"/>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -59,13 +87,13 @@
 @push('scripts')
 <script>
     jQuery(function ($) {
-        $main_form = $('#post-update-form');
+        $main_form = $('#user-update-form');
         $main_form.submit(function () {
 
             $.notify(window.custom.messages.processing);
 
             $.ajax({
-                url: '{{ route('post.update', $post->id) }}',
+                url: '{{ route('user.update', $user->id) }}',
                 type: 'PUT',
                 dataType: 'JSON',
                 data: $main_form.serializeArray(),

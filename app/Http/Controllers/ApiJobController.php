@@ -48,6 +48,10 @@ class ApiJobController extends Controller
 		$user   = User::where( 'code', $request->input( 'code' ) )->first();
 		$is_bid = $request->input( 'is_bid', '0' ) == '1';
 
+		if ( $user->status != 'active' ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, 'Failed to connect with this driver.' );
+		}
+
 		$job = Job::create( [
 			                    'pickup'             => $request->input( 'pickup' ),
 			                    'drop'               => $request->input( 'drop' ),

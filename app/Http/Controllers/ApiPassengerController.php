@@ -41,6 +41,10 @@ class ApiPassengerController extends Controller
 		$user      = User::where( 'code', $request->input( 'code' ) )->first();
 		$passenger = Passenger::with( 'user' )->where( 'phone', $request->input( 'phone' ) );
 
+		if ( $user->status != 'active' ) {
+			return JSONResponse::encode( Config::get( 'constants.HTTP_CODES.FAILED' ), null, 'Failed to connect with this driver.' );
+		}
+
 		$values = [
 			'name'    => $request->input( 'name' ),
 			'udid'    => $request->input( 'udid' ),
