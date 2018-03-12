@@ -3,7 +3,7 @@
 @section('style')
     <style>
     body {
-        background-color: #5d9cec;
+        background-color: #ec2121;
     }
     </style>
 @endsection
@@ -13,7 +13,7 @@
         <!-- START panel-->
         <div class="panel panel-dark panel-flat">
             <div class="panel-heading text-center">
-                <h3 class="m0">DriverApp</h3>
+                <h3 class="m0">Hcbox</h3>
             </div>
             <div class="panel-body">
                 <p class="text-center pv">SIGN IN TO CONTINUE.</p>
@@ -49,7 +49,6 @@
                     </div>
                     <button type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
                 </form>
-                <p class="pt-lg text-center">Need to Signup?</p><a href="{{ url('/register') }}" class="btn btn-block btn-default">Register Now</a>
             </div>
         </div>
         <!-- END panel-->

@@ -17,6 +17,7 @@ $active_navigation = Dashboard::active_navigation();
     <link rel="stylesheet" href="{{ asset('/css/vendor.css') }}">
 
     <link rel="stylesheet" href="{{ asset('/css/bootstrap.css') }}" id="bscss">
+    <link rel="stylesheet" href="{{ asset('/css/theme-h.css') }}" id="tscss">
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}" id="maincss">
 
     <script>
